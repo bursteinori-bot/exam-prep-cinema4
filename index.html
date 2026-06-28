@@ -286,6 +286,29 @@
 <script src="summaries.js"></script>
 <script src="notion_summaries.js"></script>
 <script>
+// ── Google Sheets backend ─────────────────────────────
+// הכנס כאן את ה-URL שקיבלת מ-Apps Script Deploy:
+const SHEETS_URL = localStorage.getItem('cinema4_sheets_url') || '';
+
+async function sheetsGet() {
+  if (!SHEETS_URL) return { users: [] };
+  try {
+    const r = await fetch(SHEETS_URL);
+    return await r.json();
+  } catch { return { users: [] }; }
+}
+
+async function sheetsPost(data) {
+  if (!SHEETS_URL) return;
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+  } catch(e) { console.warn('Sheets sync failed', e); }
+}
+
 // ── Multi-user state ─────────────────────────────────
 let CURRENT_USER = localStorage.getItem('cinema4_active') || 'guest';
 
@@ -300,6 +323,8 @@ function getUserData(u) {
 function saveCurrentData() {
   if (CURRENT_USER==='guest') return;
   localStorage.setItem('cinema4_user_'+CURRENT_USER, JSON.stringify(_UD));
+  // sync lessons (summaries) to Sheets — fire and forget
+  sheetsPost({ action:'saveUser', username: CURRENT_USER, lessons: _UD.lessons||{} });
 }
 
 let _UD = getUserData(CURRENT_USER);
@@ -331,6 +356,25 @@ function createUser() {
   const users = getUsers();
   if (!users.includes(n)) { users.push(n); saveUsers(users); }
   switchUser(n);
+}
+
+// ── Load from Sheets on startup ───────────────────────
+async function syncFromSheets() {
+  if (!SHEETS_URL) return;
+  const { users } = await sheetsGet();
+  if (!users || !users.length) return;
+  // merge remote users into local
+  const localUsers = getUsers();
+  let changed = false;
+  users.forEach(u => {
+    if (!localUsers.includes(u.username)) { localUsers.push(u.username); changed = true; }
+    // store their lessons data locally (for "סיכומי חברים" feature)
+    const existing = getUserData(u.username);
+    existing.lessons = u.lessons || {};
+    localStorage.setItem('cinema4_user_'+u.username, JSON.stringify(existing));
+  });
+  if (changed) saveUsers(localUsers);
+  rebuildNavSheet();
 }
 
 // ── Countdown ─────────────────────────────────────────
@@ -782,6 +826,26 @@ function rebuildAll() {
 
 document.getElementById('user-label').textContent = CURRENT_USER==='guest' ? 'אורח' : CURRENT_USER;
 rebuildAll();
+syncFromSheets(); // load remote users in background
+
+// ── Sheets URL setup (first-time) ────────────────────
+function setupSheetsUrl() {
+  const url = prompt('הדבק את ה-URL של Apps Script:');
+  if (url && url.startsWith('https://')) {
+    localStorage.setItem('cinema4_sheets_url', url);
+    location.reload();
+  }
+}
+// Show setup button if no URL configured
+if (!SHEETS_URL) {
+  setTimeout(() => {
+    const btn = document.createElement('button');
+    btn.style.cssText = 'position:fixed;bottom:16px;left:16px;z-index:400;padding:8px 14px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:.65rem;font-family:inherit;cursor:pointer;';
+    btn.textContent = '🔗 חבר Google Sheets';
+    btn.onclick = setupSheetsUrl;
+    document.body.appendChild(btn);
+  }, 500);
+}
 </script>
 </body>
 </html>
