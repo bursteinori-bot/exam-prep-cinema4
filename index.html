@@ -218,6 +218,14 @@
     .set-opt { padding:8px 14px; border-radius:8px; border:.5px solid var(--border); background:var(--inset); font-size:.65rem; font-family:var(--f-body); color:var(--text); cursor:pointer; transition:all .12s; }
     .set-opt:hover { border-color:var(--text); }
     .set-opt.active { background:var(--text); color:var(--bg); border-color:var(--text); }
+    [data-theme="dark"] .set-opt.active { background:#3A3935; color:var(--text); border-color:var(--faint); }
+
+    /* Scroll to top */
+    .scroll-top { position:fixed; bottom:72px; left:14px; width:36px; height:36px; border-radius:50%; background:var(--surface); border:.5px solid var(--border); box-shadow:var(--shadow); color:var(--text); font-size:.65rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:150; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .scroll-top.visible { opacity:1; pointer-events:auto; }
+    /* Done row */
+    .ov-row.done { background:var(--green-bg); }
+    .ov-row.done .ov-row-title { color:var(--green); }
 
     /* Toast */
     .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--text); color:var(--bg); border-radius:12px; padding:10px 16px; font-size:.6rem; line-height:1.5; z-index:500; opacity:0; transition:all .3s; max-width:88vw; text-align:center; pointer-events:none; }
@@ -241,6 +249,7 @@
 <header>
   <div class="header-top">
     <button class="settings-btn" id="settings-btn" title="הגדרות">⚙</button>
+    <button class="settings-btn" id="theme-btn" title="החלף תצוגה">🌙</button>
     <h1>תולדות הקולנוע 4</h1>
     <div class="progress-pill">
       <div class="progress-track"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
@@ -309,6 +318,9 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Scroll to top -->
+<button class="scroll-top" id="scroll-top">↑</button>
+
 <main id="main"></main>
 
 <script src="data.js"></script>
@@ -320,6 +332,11 @@ function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('c4_theme', t);
   document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
+  updateThemeBtn();
+}
+function updateThemeBtn() {
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀' : '🌙';
 }
 function setFont(f) {
   document.documentElement.setAttribute('data-font', f);
@@ -334,6 +351,7 @@ function setFont(f) {
   setTimeout(() => {
     document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));
     document.querySelectorAll('[data-font]').forEach(b=>b.classList.toggle('active',b.dataset.font===f));
+    updateThemeBtn();
   }, 0);
 })();
 
@@ -465,6 +483,7 @@ function refreshProgress() {
       const fill=row.querySelector('.ov-row-bar-fill'), fracEl=row.querySelector('.ov-row-frac');
       if(fill){fill.style.height=p2+'%'; fill.className='ov-row-bar-fill'+(p2===100?' full':'');}
       if(fracEl){fracEl.textContent=t?`${w}/${t}`:''; fracEl.className='ov-row-frac'+(p2===100?' full':'');}
+      row.classList.toggle('done', p2===100);
     }
   });
 }
@@ -489,6 +508,30 @@ backdrop.onclick = () => { closeSheet('reading-panel'); closeSheet('settings-pan
 document.getElementById('rp-close').onclick = () => closeSheet('reading-panel');
 document.getElementById('set-close').onclick = () => closeSheet('settings-panel');
 document.getElementById('settings-btn').onclick = () => openSheet('settings-panel');
+document.getElementById('theme-btn').onclick = () => {
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+};
+
+// ── Scroll to top ─────────────────────────────────────
+const scrollTopBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 280);
+}, { passive: true });
+scrollTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+// ── Swipe navigation (mobile) ────────────────────────
+let _swipeX = 0;
+document.getElementById('main').addEventListener('touchstart', e => {
+  _swipeX = e.touches[0].clientX;
+}, { passive: true });
+document.getElementById('main').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - _swipeX;
+  if (Math.abs(dx) < 60) return;
+  const tabs = ['overview', ...LESSONS.map(l => `l${l.id}`)];
+  const cur = tabs.indexOf(active);
+  if (dx < 0 && cur < tabs.length - 1) setTab(tabs[cur + 1]);
+  if (dx > 0 && cur > 0) setTab(tabs[cur - 1]);
+}, { passive: true });
 document.addEventListener('keydown', e => { if(e.key==='Escape'){closeSheet('reading-panel');closeSheet('settings-panel');closeNavSheet();} });
 
 function openRP(title, buildFn) {
@@ -573,6 +616,7 @@ function buildOverview() {
     const w=watchedCount(l),t=mandatory(l).length,p=pctOf(w,t);
     const dirs=[...new Set(mandatory(l).map(f=>f.director).filter(Boolean))].join(' · ');
     const row=document.createElement('div'); row.className='ov-row'; row.dataset.l=l.id;
+    if(p===100) row.classList.add('done');
     row.innerHTML=`<div class="ov-row-bar"><div class="ov-row-bar-fill${p===100?' full':''}" style="height:${p}%"></div></div><div class="ov-row-num">${l.id}</div><div class="ov-row-title">${l.title}</div><div class="ov-row-dirs">${dirs}</div><div class="ov-row-frac${p===100?' full':''}${!t?' hidden':''}">${t?`${w}/${t}`:''}</div>`;
     row.onclick=()=>setTab(`l${l.id}`); list.appendChild(row);
   });
