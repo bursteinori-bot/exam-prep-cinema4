@@ -118,7 +118,7 @@
 
     /* Section boxes */
     .sec-box { background:var(--surface); border-radius:12px; box-shadow:var(--shadow); margin-top:12px; overflow:hidden; }
-    .sec-box-hd { padding:9px 13px 8px; border-bottom:.5px solid var(--border); }
+    .sec-box-hd { display:flex; align-items:center; justify-content:space-between; padding:9px 13px 8px; border-bottom:.5px solid var(--border); }
     .sec-box-hd h3 { font-family:var(--f-head); font-size:.7rem; font-weight:700; color:var(--text); }
     .sec-box-body { padding:9px 12px; }
 
@@ -170,6 +170,26 @@
     .ov-film-m { font-size:.52rem; font-weight:600; color:var(--text); background:var(--inset); border:.5px solid var(--border); border-radius:4px; padding:1px 5px; white-space:nowrap; }
     .ov-film-done { color:var(--faint); background:transparent; text-decoration:line-through; }
 
+    /* Compact overview rows */
+    .ov-list { display:flex; flex-direction:column; gap:5px; }
+    .ov-row { display:flex; align-items:center; gap:8px; background:var(--surface); border-radius:10px; padding:9px 12px; box-shadow:var(--shadow); cursor:pointer; min-height:40px; transition:box-shadow .15s; }
+    .ov-row:hover { box-shadow:0 3px 12px rgba(0,0,0,.1); }
+    .ov-row-bar { width:3px; min-height:24px; border-radius:2px; background:var(--border); flex-shrink:0; overflow:hidden; position:relative; }
+    .ov-row-bar-fill { position:absolute; bottom:0; left:0; right:0; background:var(--text); transition:height .3s; }
+    .ov-row-bar-fill.full { background:var(--green); }
+    .ov-row-num { font-size:.48rem; color:var(--faint); font-family:var(--f-mono); flex-shrink:0; min-width:24px; }
+    .ov-row-title { font-family:var(--f-head); font-size:.66rem; font-weight:600; color:var(--text); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ov-row-dirs { font-size:.46rem; color:var(--muted); flex-shrink:0; white-space:nowrap; overflow:hidden; max-width:35%; text-overflow:ellipsis; }
+    .ov-row-frac { font-size:.52rem; color:var(--muted); font-family:var(--f-mono); flex-shrink:0; min-width:32px; text-align:left; }
+    .ov-row-frac.full { color:var(--green); }
+    .ov-row.sem-a { border-right:2px solid #C4A84A; }
+    /* Mark all */
+    .mark-all-btn { font-size:.52rem; padding:3px 10px; border-radius:6px; border:.5px solid var(--border); background:var(--inset); color:var(--muted); cursor:pointer; font-family:var(--f-body); transition:background .12s,color .12s; white-space:nowrap; flex-shrink:0; }
+    .mark-all-btn:hover { background:var(--text); color:var(--bg); }
+    /* Confetti */
+    @keyframes confetti-fly { 0%{transform:translate(0,0) rotate(0deg);opacity:1;} 100%{transform:translate(var(--cx),var(--cy)) rotate(var(--cr));opacity:0;} }
+    .confetti-p { position:fixed; pointer-events:none; z-index:600; border-radius:2px; animation:confetti-fly .9s ease-out forwards; }
+
     /* Reading Panel */
     .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.2); z-index:299; opacity:0; pointer-events:none; transition:opacity .25s; }
     .backdrop.open { opacity:1; pointer-events:auto; }
@@ -208,8 +228,9 @@
       .tab-bar { display:none; }
       .mob-nav { display:flex; }
       .film-grid { grid-template-columns:1fr !important; }
-      .ov-grid { grid-template-columns:1fr !important; }
       .sheet-tall { height:92vh; }
+      .fc-check { width:28px; height:28px; font-size:.6rem; }
+      .fc-clip-box { width:18px; height:18px; min-width:18px; font-size:.52rem; }
     }
     @media(max-width:480px) { html { font-size:22px; } header { padding:8px 12px 0; } main { padding:12px 10px 48px; } }
     @media(max-width:360px) { html { font-size:19px; } }
@@ -329,64 +350,64 @@ function fs(id) {
 
 // ── Funny comments ────────────────────────────────────
 const JOKES = {
-  avventura: ["היא נעלמה. הסרט ממשיך. הקולנוע לא חיכה לאף אחד 🏝️"],
-  blowup: ["הגדלת עוד פעם? עוד פעם? הסרט מנצח 📸"],
-  la_notte: ["לילה ארוך? זה רק 2 שעות. בניגוד לחיי הנישואין שם..."],
-  eclisse: ["סיקוונס הסיום? 7 דקות ללא דמויות. גאונות. או עצלות. אתה תחליט ⚡"],
-  dolcevita: ["La Dolce Vita! אתה כבר יודע מה זאת החיים המתוקים? 🍷"],
-  '8half': ["8½ — פליני עשה סרט על אי-היכולת לעשות סרט. ועשה אותו מושלם 🎬"],
-  love_in_city_fellini: ["פרק קצר? פליני גם ב-15 דקות לא יכול לעצור 💫"],
-  amarcord: ["זיכרונות? כולם? פליני? חכה לסוף הסרט..."],
-  vitelloni: ["בטלנים. לא כמוך כמובן. אתה לומד לבחינה 😉"],
-  cabiria: ["נאיבי ויפה ומכאיב. ממש כמו הכנה למבחן 🌟"],
-  divorce_italian: ["גירושין איטלקי. הפתרון הגנרי לכל בעיה 🍕"],
-  we_loved: ["כך כל כך אהבנו — את פליני? כן. ✓"],
-  dr_antonio: ["אניטה מהפוסטר. גדולה. ממש גדולה. 👀"],
-  intervista: ["ראיון עם אנטוניוני פליני. חלום שרק פליני חלם 🎥"],
-  stardust: ["וודי אלן + 8½ = Stardust Memories. עדיין לא הגיע לפליני 🌟"],
-  all_that_jazz: ["All That Jazz — בוב פוסי שורד, לא שורד, לא שורד... 🎭"],
-  fourhundred: ["400 הלקות. ואתה מקבל 0 עד שתצפה 🏃"],
-  jules_jim: ["ז'ול וג'ים וקתרין. ספוילר: לא נגמר טוב 💔"],
-  breathless: ["A bout de souffle! ג'אמפ קאט! כמו הקריאה שלך לפני המבחן 💨"],
-  vivre_sa_vie: ["12 פרקים. 12 דרכים לבכות בשקט 📺"],
-  bande_a_part: ["הריקוד בקפה. 3 דקות שכולם רצו להיות שם 💃"],
-  pierrot: ["פיירו המשוגע. כחול. פיצוץ. גודאר 💙"],
-  weekend_godard: ["פקק תנועה. 10 דקות. גודאר אומר תודה שצפית 🚗"],
-  night_fog: ["לילה וערפל. אחד הסרטים שמשאיר אותך שותק 🌫️"],
-  hiroshima: ["הירושימה אהובתי — ראית? לא ראית? 🌸"],
-  marienbad: ["מריאנבד. כן? לא? אולי? השנה שעברה? 🏛️"],
-  lola_demy: ["לולה — הנמל. השמלה הלבנה. ז'אק דמי ❤️"],
-  umbrellas: ["מטריות שרבורג. אם לא בכית — צפה שוב ☂️"],
-  rochefort: ["הנערות מרושפור! מוזיקלי! צבעוני! שמח! (לשנייה) 🎵"],
-  lalaland: ["La La Land בטאב של גדה שמאלית — גודאר היה מאושר 🌟"],
-  jeanne_garcon: ["שיר על AIDS ב-1998. עדין ומרסק בו זמנית 🎭"],
-  diary_pregnant: ["יומן בהריון. ורדא ב-1958. לפני כולן 📔"],
-  cleo: ["90 דקות, זמן אמת, פריז. ורדא פשוט גאונה ⏰"],
-  le_bonheur: ["האושר. צבעים יפים. תוכן... פחות. 🌻"],
-  cranes: ["עגורים עפים. מרק. ורוניקה. רוסיה אחרי המלחמה 🕊️"],
-  ashes: ["אפר ויהלומים. מאצ'ק לא ישן טוב הלילה 💎"],
-  iam_cuba: ["אני קובה! שוט הבריכה! שוט הסיגר! קלטוזוב!!! 🎬"],
-  ivans_childhood: ["נעורי איוון. טרקובסקי הראשון. וכבר הכל שם ✨"],
-  rublev: ["208 דקות. פעמון בסוף. שווה כל רגע 🔔"],
-  tarkovsky_prayer: ["תפילת קולנוע לאנדריי טרקובסקי. ❤️"],
-  solaris: ["סולריס = 2001 + נשמה + 40 דקות נוספות 🌊"],
-  nostalghia: ["דומיניקו שורף את עצמו. נר. 9 דקות. טרקובסקי 🕯️"],
-  ascent: ["שני פרטיזנים. הרים. שלג. שפיטקו. ❄️"],
-  come_see: ["צא וראה — ראית? לא תשכח. אף פעם. 👁️"],
-  shadows_ancestors: ["צלליות. פרדז'נוב. ארמניה. יופי מוחלט 🎨"],
-  pomegranates: ["צבע רימונים — 10 דקות מהסרט היפה בעולם 🍎"],
-  ashes_wajda2: ["מאצ'ק שוב. ווידה לא נותן לנו לנשום 💨"],
-  man_marble: ["איש השיש — ווידה חוקר את ווידה 🏛️"],
-  two_men: ["שני אנשים וארון — פולנסקי ב-19. ב-19! 🚪"],
-  knife_water: ["סכין במים. שלוש דמויות. אגם. פולנסקי. מותח 🔪"],
-  blind_chance: ["כוחו של מקרה — שלוש גרסאות לאותה חיים. קישלובסקי 🎲"],
-  short_killing: ["סיפור קצר על רצח. לא כל כך קצר. לא כל כך על רצח. 😶"],
-  loves_blonde: ["בלונדינית מאוהבת. פורמן. צ'כיה. קיץ שנות ה-60 💛"],
-  firemans_ball: ["נשף כבאים — הכל משתבש. פורמן צוחק. אנחנו איתו 🔥"],
-  trains: ["רכבות נשמרות היטב — ג'ירי מנצל. אוסקר. הנשיקה 🚂"],
-  daisies: ["חמניות — חיטילובה שוברת הכל. ממש הכל. 🌸"],
-  the_joke: ["הבדיחה — מה שנאמר ב-1969 עדיין מצחיק ב-2026 😐"],
-  wr: ["ו.ר. תעלומות האורגניזם — יוגוסלביה, סקס ופוליטיקה 🇾🇺"],
+  avventura: ["אנה נעלמת אחרי 20 דקות. הסרט ממשיך בלעדיה עוד שעתיים. אנטוניוני: 'שאלת לאן היא הלכה? לא רלוונטי.' אתה במבחן: 'לא רלוונטי' זו לא תשובה. 🏝️"],
+  blowup: ["הגדלת. הגדלת שוב. גילית משהו. או לא. אנטוניוני לא יגיד לך. הפרופסור כן יצפה שתגיד. 📸"],
+  la_notte: ["זוג. לילה. שיחות ריקות. לא קורה כלום. אנטוניוני: 'זה הסרט.' אתה במבחן: 'כלום' לא מספיק. כתוב 'ניכור מודרניסטי' וזה אותו דבר. 🌙"],
+  eclisse: ["7 דקות בסוף — ריחוב, אור, שום דמות. אנטוניוני עזב את הסרט לפני שהסרט נגמר. רעיון. ⚡"],
+  dolcevita: ["3 שעות של חיים מתוקים. מרצ'לו עושה הכל ולא מצליח כלום. בדיוק כמו ה-3 שעות שלפני המבחן. 🍷"],
+  '8half': ["פליני לא ידע מה הסרט הבא שלו. אז עשה סרט על זה. ניצח. אתה לא יודע מה לכתוב — נסה גם. 🎬"],
+  love_in_city_fellini: ["פליני ב-15 דקות = פליני ב-3 שעות. הוא לא יכול לעצור. אנחנו לא מצפים שתעצור גם. 💫"],
+  amarcord: ["'אני זוכר' — פליני על ילדות שלא בדיוק הייתה ככה. אבל כך נרשמה בזיכרון. ציין 'מיתוס אוטוביוגרפי' במבחן ויתרשמו. 🌸"],
+  vitelloni: ["5 בטלנים. עיר קטנה. אחד בסוף יוצא. השאר? נשארים. אבל לפחות אתה עכשיו לא בטלן — אתה לומד. 😉"],
+  cabiria: ["נאיבית, מאמינה, מתאכזבת, מאמינה שוב. קביריה מסיימת בחיוך. גם אתה תסיים את המבחן בחיוך. כנראה. 🌟"],
+  divorce_italian: ["גירושין לא אפשריים באיטליה ב-1961. הפתרון? לארגן שהאשה תיהרג. ואז להתחתן עם הגרמנייה. 'הומדיה'. 🍕"],
+  we_loved: ["כך כל כך אהבנו — שלושה חברים ואחת שהם כולם אוהבים. בסוף הם לא יודעים מה קרה. כמו אחרי המבחן. ✓"],
+  dr_antonio: ["אניטה אקברג על פוסטר ענק. ד'ר אנטוניו נלחם בה. פליני לועג למוסר. הפוסטר מנצח. 👀"],
+  intervista: ["פליני מראיין את אניטה אקברג. שניהם כבר זקנים. הם צופים יחד ב-La Dolce Vita. שניהם בוכים. אתה גם. 🎥"],
+  stardust: ["וודי אלן עשה 8½ שלו. פליני ראה וחייך בנדיבות. הסרט של אלן טוב. של פליני טוב יותר. הפרש גדול. 🌟"],
+  all_that_jazz: ["בוב פוסי עשה סרט על מותו שלו. מת 8 שנים אחרי. הסרט: מדויק. מבחינת חיזוי — 8/10. 🎭"],
+  fourhundred: ["400 הלקות. אנטואן דואנל. 14 שנים. מוסד. בריחה. ים. המצלמה לא יודעת לאן. גם אנטואן לא. גם אתה לא אחרי הסרט. 🏃"],
+  jules_jim: ["שניים אוהבים אחת. שלושתם יחד. זה לא עובד. קתרין נוהגת לים. ג'ים איתה. ז'ול נשאר. 💔"],
+  breathless: ["גודאר לא ידע לערוך, אז המציא את הז'אמפ קאט. אתה לא יודע לכתוב תשובה — תמציא מונח. 💨"],
+  vivre_sa_vie: ["12 תמונות. 12 דרכים לקרב ולדחות בו זמנית. גודאר + ברכט + נאנה. הנוסחה: תכתוב 'אפקט הניכור' ותקבל נקודות. 📺"],
+  bande_a_part: ["הריקוד. שלושה. מסעדה. 3 דקות. גודאר פשוט עצר את הסרט לריקוד. הלוואי שהמבחן היה כך. 💃"],
+  pierrot: ["פיירו לא יודע מי הוא. גודאר לא יודע מה הסרט. הצופה לא יודע מה קרה. 'ניכור'. 'כחול'. 'פיצוץ'. ״כותבים במבחן.״ 💙"],
+  weekend_godard: ["10 דקות. שוט אחד. פקק. גודאר שואל: מה זו ציוויליזציה? פקק. גם בדרך למבחן. 🚗"],
+  night_fog: ["רנה. 1955. 32 דקות. שחור-לבן + צבע. הצנזורה ניסתה לעצור. לא הצליחה. הסרטים הנכוחים ביותר — לא עוצרים. 🌫️"],
+  hiroshima: ["'לא ראית כלום בהירושימה.' 'ראיתי הכל.' רנה ודיראס ויכחו על הזיכרון. שניהם צדקו. שניהם טעו. ✓🌸"],
+  marienbad: ["מה קרה בשנה שעברה? כן. לא. אולי. האם זה קרה בכלל? כן. לא. אולי. זו שאלת הבחינה. כל תשובה נכונה. 🏛️"],
+  lola_demy: ["לולה. שמלה לבנה. נמל. מוזיקה. ז'אק דמי המציא עיר שלא קיימת אבל מרגישה אמיתית יותר מהמציאות. ❤️"],
+  umbrellas: ["כל הדיאלוג — שיר. הפרידה — שיר. הבכי — שיר. האם לא בכית? צפה שוב. ☂️"],
+  rochefort: ["מוזיקלי! שמח! צבעוני! ג'ין קלי! כולם פוגשים את אהבת חייהם — אבל תמיד רגע אחד אחרי שהלכו. 🎵"],
+  lalaland: ["La La Land גנב מדמי, שם בלוס אנג'לס, קיבל 6 אוסקרים. דמי לא קיבל. גודאר לא קיבל. פליני קיבל כבוד. 🌟"],
+  jeanne_garcon: ["ז'אן-מארי שר על AIDS. 1998. הגיבור מת. הסרט ממשיך. ורדא ידעה שדרך השיר אפשר לומר מה שאי אפשר לומר אחרת. 🎭"],
+  diary_pregnant: ["ורדא 1958. מצלמת את הריונה שלה. 8 דקות. לפני כולם. לפני הסינמה וריטה, לפני הגל החדש, לפני הכל. 📔"],
+  cleo: ["90 דקות. זמן אמת. פריז. ממתינה לתוצאות. ורדא מלווה אותה בלי לשפוט. אתה מלווה בלי לנשום. ⏰"],
+  le_bonheur: ["צבעים כה יפים. משפחה כה מאושרת. אשה אחת מתה. גבר אחר מאושר. ורדא לא מתנצלת. 🌻"],
+  cranes: ["מרק הולך למלחמה. ורוניקה בוגדת. מרק מת. עגורים עפים. סרט סובייטי שגרם לאנשים לבכות בכל שפה. 🕊️"],
+  ashes: ["מאצ'ק. 1948. ורשה. יהלום בתוך אפר. ווידה לא נותן לנו להרגיש טוב בקלות. 💎"],
+  iam_cuba: ["שוט הבריכה: קלטוזוב הוריד את המצלמה מהגג למים בשוט אחד. 1964. לא ידעו איך עשו את זה עד 2000. 🎬"],
+  ivans_childhood: ["טרקובסקי הראשון. 12 שנים. חלומות לבנים. מלחמה שחורה. כבר ב-1962 ידע הכל. הבאים לאחר מכן רק המשיכו. ✨"],
+  rublev: ["208 דקות. שחור-לבן. רוסיה 1400. ובסוף 8 דקות צבע של ציורי אייקון. טרקובסקי: 'סבלת? הנה פרס.' 🔔"],
+  tarkovsky_prayer: ["תפילה לטרקובסקי. 1989. שנה אחרי מותו. הסרטים שלו היו תפילות. הסרט הזה ידע זאת ואמר זאת בקול. ❤️"],
+  solaris: ["גוף שת מייצר את מה שאתה הכי מפחד לפגוש. טרקובסקי לא התנצל על 40 הדקות הראשונות. קוברק לא התנצל על 2001. שניהם אינסוף. 🌊"],
+  nostalghia: ["אגריפי חוצה בריכה עם נר. 9 דקות. הנר כבה פעמיים. 'עוד פעם' אמר טרקובסקי. זה הסרט כולו בשוט אחד. 🕯️"],
+  ascent: ["שני פרטיזנים בשלג. אחד מוסר, אחד נדחף. שפיטקו אמרה שזה סרט על אהבה. לא על מלחמה. צדקה. ❄️"],
+  come_see: ["הפרופסור הפעיל את הסרט. 2 שעות. כשנגמר — 40 סטודנטים שתקו 3 דקות. לא היה צורך לשאול שאלות. 👁️"],
+  shadows_ancestors: ["פרדז'נוב 1965. כל פריים — יצירת אמנות. המשטר הסובייטי שלח אותו לכלא. כנראה לא אהבו יופי. 🎨"],
+  pomegranates: ["10 דקות שכנראה הן הקולנוע היפה ביותר שנוצר. לא מספר עלילה. לא צריך. אתה פשוט מרגיש. 🍎"],
+  ashes_wajda2: ["מאצ'ק שוב. אבל עכשיו הוא מבוגר יותר ומבין פחות. ווידה: 'כך פולין.' 💨"],
+  man_marble: ["ווידה חוקר את ווידה. סרט על מה שמחקו, מצולם על ידי מי שמצלם את מי שחקר מה מחקו. המשטר ניסה למחוק גם את זה. 🏛️"],
+  two_men: ["פולנסקי. 19 שנים. שני אנשים. ארון. ים. 8 דקות. ב-19 כבר ידע יותר ממה שרוב הבמאים יודעים לעולם. 🚪"],
+  knife_water: ["שלוש דמויות. סירה. אגם. שעות של מתח. בסוף — לא קורה כלום. פולנסקי: 'ה'כלום' הוא הכל.' 🔪"],
+  blind_chance: ["אותו איש, שלוש פעמיות. הכל תלוי אם הספיק לרכבת. קישלובסקי: 'כך החיים.' אתה: 'כך גם ציוני המבחן.' 🎲"],
+  short_killing: ["שפוט: האם עונש מוות מוצדק? קישלובסקי לא שואל ישירות. הוא מציג. ואתה פתאום לא יודע מה לענות. 😶"],
+  loves_blonde: ["פורמן. פראג 1965. נגן חצוצרה מחפש בלונדינית. מוצא. מאבד. זזה הלאה. פורמן ידע שצ'כיה לא תהיה חופשית. עזב. 💛"],
+  firemans_ball: ["נשף של כבאים שמשתבש בכל כיוון אפשרי. פורמן: 'זה על הקומוניזם.' המשטר: 'אסור.' פורמן: 'להתראות.' 🔥"],
+  trains: ["הנשיקה. מנצל. 1966. אוסקר. תזכור: הנשיקה. אם יצאת ולא זכרת את הנשיקה — חזור. 🚂"],
+  daisies: ["חיטילובה שברה הכל — ממש הכל. שולחן, מוסכמות, נרטיב, קולנוע. המשטר הפסיק אותה. הסרט שרד. 🌸"],
+  the_joke: ["לודוויק כתב בדיחה ב-1948. זה הרס את חייו. קונדרה כתב ספר על זה. מנצל עשה סרט. 1969 — עצרו גם את הסרט. 😐"],
+  wr: ["ווילהלם רייך + יוגוסלביה + מרקסיזם + פסיכואנליזה + ריקוד = ו.ר. תעלומות האורגניזם. לא בדיחה. 🇾🇺"],
 };
 
 function showJoke(filmId) {
@@ -395,7 +416,20 @@ function showJoke(filmId) {
   const msg = list[Math.floor(Math.random()*list.length)];
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3200);
+  setTimeout(() => t.classList.remove('show'), 3800);
+}
+
+function confetti(el) {
+  const r = el.getBoundingClientRect();
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const colors = ['#F2C94C','#27AE60','#2D9CDB','#EB5757','#BB6BD9','#F2994A'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div'); p.className='confetti-p';
+    const size=Math.random()*6+4;
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${colors[i%colors.length]};--cx:${(Math.random()-0.5)*130}px;--cy:${-Math.random()*100-20}px;--cr:${Math.random()*360}deg;animation-delay:${Math.random()*0.15}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1200);
+  }
 }
 
 // ── Countdown ─────────────────────────────────────────
@@ -424,6 +458,13 @@ function refreshProgress() {
       if (fill){fill.style.width=p2+'%';fill.className='ov-fill'+(p2===100?' full':'');}
       if (fracEl){fracEl.textContent=t?`${w}/${t}`:'';fracEl.className='ov-frac'+(p2===100?' full':'');}
       card.querySelectorAll('.ov-film-m').forEach(el=>{const id=el.dataset.fid;if(id)el.className='ov-film-m'+(fs(id).watched?' ov-film-done':'');});
+    }
+    const row=document.querySelector(`.ov-row[data-l="${l.id}"]`);
+    if(row){
+      const p2=pctOf(w,t);
+      const fill=row.querySelector('.ov-row-bar-fill'), fracEl=row.querySelector('.ov-row-frac');
+      if(fill){fill.style.height=p2+'%'; fill.className='ov-row-bar-fill'+(p2===100?' full':'');}
+      if(fracEl){fracEl.textContent=t?`${w}/${t}`:''; fracEl.className='ov-row-frac'+(p2===100?' full':'');}
     }
   });
 }
@@ -492,7 +533,7 @@ function buildNavSheet() {
   LESSONS.filter(l=>l.semester==='א').forEach(l=>mkItem(`l${l.id}`,l.id,l.title,'','sem-a'));
   LESSONS.filter(l=>!l.semester).forEach(l=>{
     const w=watchedCount(l),t=mandatory(l).length;
-    mkItem(`l${l.id}`,l.id,l.title,t?`${w}/${t}`:'');
+    const pct=pctOf(w,t); mkItem(`l${l.id}`,l.id,l.title,t?`${w}/${t} · ${pct}%`:'');
   });
 }
 
@@ -520,26 +561,23 @@ function buildTabs() {
 // ── Overview ──────────────────────────────────────────
 function buildOverview() {
   const panel=document.createElement('div'); panel.className='panel active'; panel.dataset.p='overview';
-  const allM=LESSONS.flatMap(mandatory).length;
-  panel.innerHTML=`<div class="ov-header"><h2>הכנה למבחן</h2><p>${allM} סרטי חובה · ${LESSONS.filter(l=>!l.semester).length} נושאי סמ׳ ב · 2 נושאי סמ׳ א · מבחן 26.7</p></div>`;
-  const grid=document.createElement('div'); grid.className='ov-grid';
-  const decade={1:'1960',2:'1959-63',3:'1959-65',4:'1959-64',5:'1958-64',6:'1972-85',7:'1966-71'};
+  const list=document.createElement('div'); list.className='ov-list';
 
   LESSONS.filter(l=>l.semester==='א').forEach(l=>{
-    const card=document.createElement('div'); card.className='ov-card sem-a'; card.dataset.l=l.id;
-    card.innerHTML=`<div class="ov-num">נושא ${l.id} · סמ׳ א</div><div class="ov-title">${l.title}</div>${l.subtitle?`<div style="font-size:.46rem;color:#A08840;margin-bottom:5px">${l.subtitle}</div>`:''}`;
-    card.onclick=()=>setTab(`l${l.id}`); grid.appendChild(card);
+    const row=document.createElement('div'); row.className='ov-row sem-a'; row.dataset.l=l.id;
+    row.innerHTML=`<div class="ov-row-num">א${l.id.replace('א','')}</div><div class="ov-row-title">${l.title}</div><div class="ov-row-dirs">${l.subtitle?l.subtitle.split('·')[0].trim():''}</div>`;
+    row.onclick=()=>setTab(`l${l.id}`); list.appendChild(row);
   });
 
   LESSONS.filter(l=>!l.semester).forEach(l=>{
     const w=watchedCount(l),t=mandatory(l).length,p=pctOf(w,t);
-    const card=document.createElement('div'); card.className='ov-card'; card.dataset.l=l.id;
-    const fh=mandatory(l).map(f=>`<span class="ov-film-m${fs(f.id).watched?' ov-film-done':''}" data-fid="${f.id}">${f.title.split('/')[0].trim()}</span>`).join('');
-    card.innerHTML=`<div class="ov-num">נושא ${l.id} · ${decade[l.id]||''}</div><div class="ov-title">${l.title}</div><div class="ov-prog-row"><div class="ov-track"><div class="ov-fill${p===100?' full':''}" style="width:${p}%"></div></div><span class="ov-frac${p===100?' full':''}">${w}/${t}</span></div><div class="ov-films">${fh}</div>`;
-    card.onclick=()=>setTab(`l${l.id}`); grid.appendChild(card);
+    const dirs=[...new Set(mandatory(l).map(f=>f.director).filter(Boolean))].join(' · ');
+    const row=document.createElement('div'); row.className='ov-row'; row.dataset.l=l.id;
+    row.innerHTML=`<div class="ov-row-bar"><div class="ov-row-bar-fill${p===100?' full':''}" style="height:${p}%"></div></div><div class="ov-row-num">${l.id}</div><div class="ov-row-title">${l.title}</div><div class="ov-row-dirs">${dirs}</div><div class="ov-row-frac${p===100?' full':''}${!t?' hidden':''}">${t?`${w}/${t}`:''}</div>`;
+    row.onclick=()=>setTab(`l${l.id}`); list.appendChild(row);
   });
 
-  panel.appendChild(grid); return panel;
+  panel.appendChild(list); return panel;
 }
 
 // ── Lesson panel ──────────────────────────────────────
@@ -560,7 +598,21 @@ function buildLesson(l) {
   function buildSection(title, films) {
     if(!films.length) return;
     const box=document.createElement('div'); box.className='sec-box';
-    box.innerHTML=`<div class="sec-box-hd"><h3>${title}</h3></div>`;
+    const hd=document.createElement('div'); hd.className='sec-box-hd';
+    const h3=document.createElement('h3'); h3.textContent=title; hd.appendChild(h3);
+    if(films[0]?.mandatory && films.length>1){
+      const markBtn=document.createElement('button'); markBtn.className='mark-all-btn';
+      const updateBtn=()=>{ markBtn.textContent=films.every(f=>fs(f.id).watched)?'בטל הכל ✕':'סמן הכל ✓'; };
+      updateBtn();
+      markBtn.onclick=()=>{
+        const allWatched=films.every(f=>fs(f.id).watched);
+        films.forEach(f=>{fs(f.id).watched=!allWatched;}); save();
+        grid.innerHTML=''; films.forEach(film=>buildFilmCard(film,grid,panel,l));
+        refreshProgress(); updateBtn();
+      };
+      hd.appendChild(markBtn);
+    }
+    box.appendChild(hd);
     const body=document.createElement('div'); body.className='sec-box-body';
     const grid=document.createElement('div'); grid.className='film-grid';
     films.forEach(film=>buildFilmCard(film,grid,panel,l));
@@ -588,7 +640,7 @@ function buildFilmCard(film, grid, panel, l) {
     const frac=panel.querySelector('.l-frac');
     if(frac){const ww=watchedCount(l),tt=mandatory(l).length;frac.innerHTML=`<b>${ww}</b> / ${tt} נצפו`;}
     refreshProgress();
-    if(s2.watched) showJoke(film.id);
+    if(s2.watched) { showJoke(film.id); confetti(check); }
   };
   const typeEl=document.createElement('span'); typeEl.className='fc-type '+(film.mandatory?'mandatory':'clip');
   typeEl.textContent=film.mandatory?'חובה':'(קטע)';
