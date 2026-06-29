@@ -392,43 +392,26 @@ function buildLesson(l) {
   panel.appendChild(hd);
   if (l.subtitle){const s=document.createElement('div');s.className='lesson-subtitle';s.textContent=l.subtitle;panel.appendChild(s);}
 
-  // Summaries first
-  const hagarParas=getHagarParas(l.id), hasHagar=hagarParas.length>0;
-  const notionData=typeof NOTION_SUMMARIES!=='undefined'&&NOTION_SUMMARIES[String(l.id)];
-  if (hasHagar||notionData) {
-    const sumBox=document.createElement('div'); sumBox.className='sec-box';
-    sumBox.innerHTML=`<div class="sec-box-hd"><h3>סיכומים</h3></div>`;
-    const sumBody=document.createElement('div'); sumBody.className='sec-box-body';
-    const btns=document.createElement('div'); btns.className='sum-btns';
-    if (hasHagar) {
-      const b=document.createElement('button'); b.className='sum-btn'; b.textContent='סיכום הגר';
-      b.onclick=()=>openRP('סיכום הגר - שיעור '+(l.semester?'נושא ':'')+l.id, body=>{
-        const keys=HAGAR_MAP[l.id]||[];
-        if(keys.length){const d=document.createElement('p');d.className='rp-date';d.textContent=keys.map(k=>(SUMMARIES[k]||[])[0]?.text).filter(Boolean).join(' + ');body.appendChild(d);}
-        hagarParas.forEach(p=>{const el=document.createElement('p');el.className='rp-para'+(p.bold?' bold':'');el.textContent=p.text;body.appendChild(el);});
-      }); btns.appendChild(b);
-    }
-    if (notionData&&notionData.length) {
-      const b=document.createElement('button'); b.className='sum-btn';
-      b.textContent=notionData.length>1?`הקלטה (${notionData.length})`:'הקלטה';
-      b.onclick=()=>openRP('הקלטה', body=>{
-        notionData.forEach((note,i)=>{
-          if(i>0){const hr=document.createElement('hr');hr.style.cssText='border:none;border-top:1px solid var(--border);margin:14px 0';body.appendChild(hr);}
-          const d=document.createElement('p');d.className='rp-date';d.textContent=note.date+' · '+note.title;body.appendChild(d);
-          renderMd(note.text,body);
-        });
-      }); btns.appendChild(b);
-    }
-    sumBody.appendChild(btns); sumBox.appendChild(sumBody); panel.appendChild(sumBox);
+  // סרטי חובה קודם, אחר כך קטעים
+  const mandatoryFilms = l.films.filter(f => f.mandatory);
+  const clipFilms = l.films.filter(f => !f.mandatory);
+
+  function buildSection(title, films) {
+    if (!films.length) return;
+    const box=document.createElement('div'); box.className='sec-box';
+    box.innerHTML=`<div class="sec-box-hd"><h3>${title}</h3></div>`;
+    const body=document.createElement('div'); body.className='sec-box-body';
+    const grid=document.createElement('div'); grid.className='film-grid';
+    films.forEach(film => buildFilmCard(film, grid, panel, l));
+    body.appendChild(grid); box.appendChild(body); panel.appendChild(box);
   }
 
-  // Films
-  const filmsBox=document.createElement('div'); filmsBox.className='sec-box';
-  filmsBox.innerHTML=`<div class="sec-box-hd"><h3>צפייה בסרטים</h3></div>`;
-  const filmsBody=document.createElement('div'); filmsBody.className='sec-box-body';
-  const grid=document.createElement('div'); grid.className='film-grid';
+  buildSection('סרטי חובה', mandatoryFilms);
+  buildSection('קטעים לצפייה', clipFilms);
+  return panel;
+}
 
-  l.films.forEach(film=>{
+function buildFilmCard(film, grid, panel, l) {
     const s=fs(film.id), card=document.createElement('div');
     card.className='fc'+(s.watched?' watched':'');
     const meta=[film.director,film.year,film.duration?film.duration+"′":null].filter(Boolean).join(' · ');
@@ -459,10 +442,6 @@ function buildLesson(l) {
       }); card.appendChild(cd);
     }
     grid.appendChild(card);
-  });
-
-  filmsBody.appendChild(grid); filmsBox.appendChild(filmsBody); panel.appendChild(filmsBox);
-  return panel;
 }
 
 // ── Init ──────────────────────────────────────────────
