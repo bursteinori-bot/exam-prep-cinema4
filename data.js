@@ -7,37 +7,235 @@ const LESSONS = [
     id: 'א1',
     semester: 'א',
     title: 'הקולנוע האמריקאי בשנות ה-50',
-    subtitle: 'השפעת הטלוויזיה · רדיפות אנטי-קומוניסטיות · ז\'אנרים (מערבון, מוזיקל, מד"ב) · אליה קאזאן',
+    subtitle: 'השפעת הטלוויזיה · רדיפות אנטי-קומוניסטיות · ז\'אנרים (מערבון, מוזיקל, מד"ב) · קזאן · היצ\'קוק',
     films: [
       {
-        id: 'sem_a_american_notes',
-        title: 'נושא: טלוויזיה ורדיפות אנטי-קומוניסטיות',
-        director: '',
-        year: null,
-        country: '',
-        duration: null,
+        id: 'sa_sunset',
+        title: 'שדרות סאנסט / Sunset Boulevard',
+        director: 'בילי ויילדר',
+        year: 1950,
+        country: 'ארה"ב',
+        duration: 110,
         mandatory: false,
-        clips: []
+        clips: [
+          'הפתיחה',
+          'הקרנת הסרטים בביתה של נורמה',
+          'סצנת הסיום'
+        ]
       },
       {
-        id: 'sem_a_genres',
-        title: 'נושא: ז\'אנרים - מערבון, מוזיקל, מד"ב',
-        director: '',
-        year: null,
-        country: '',
-        duration: null,
+        id: 'sa_eve',
+        title: 'הכל אודות חווה / All About Eve',
+        director: 'ג\'וזף מנקייביץ',
+        year: 1950,
+        country: 'ארה"ב',
+        duration: 138,
         mandatory: false,
-        clips: []
+        clips: [
+          'המסיבה בביתה של מרגו צ\'נינג'
+        ]
       },
       {
-        id: 'sem_a_kazan',
-        title: 'נושא: אליה קאזאן',
-        director: 'Elia Kazan',
-        year: null,
+        id: 'sa_waterfront',
+        title: 'חופי הכרך / On the Waterfront',
+        director: 'איליה קזאן',
+        year: 1954,
+        country: 'ארה"ב',
+        duration: 108,
+        mandatory: false,
+        clips: [
+          'הנסיעה במכונית עם צ\'ארלי'
+        ]
+      },
+      {
+        id: 'sa_streetcar',
+        title: 'חשמלית ושמה תשוקה / A Streetcar Named Desire',
+        director: 'איליה קזאן',
+        year: 1951,
+        country: 'ארה"ב',
+        duration: 122,
+        mandatory: false,
+        clips: [
+          'המפגש בין סטנלי לבלאנש'
+        ]
+      },
+      {
+        id: 'sa_searchers',
+        title: 'המחפשים / The Searchers',
+        director: 'ג\'ון פורד',
+        year: 1956,
+        country: 'ארה"ב',
+        duration: 119,
+        mandatory: false,
+        clips: [
+          'מתוך A Personal Journey with Martin Scorsese – התפתחות דמות הגיבור ב-3 מערבונים של פורד'
+        ]
+      },
+      {
+        id: 'sa_rio_bravo',
+        title: 'ריו בראבו / Rio Bravo',
+        director: 'הווארד הוקס',
+        year: 1959,
+        country: 'ארה"ב',
+        duration: 141,
+        mandatory: false,
+        clips: [
+          'דוד זוכה לשיקום'
+        ]
+      },
+      {
+        id: 'sa_gentlemen',
+        title: 'גברים מעדיפים בלונדיניות / Gentlemen Prefer Blondes',
+        director: 'הווארד הוקס',
+        year: 1953,
+        country: 'ארה"ב',
+        duration: 91,
+        mandatory: false,
+        clips: [
+          'Diamonds Are A Girl\'s Best Friend'
+        ]
+      },
+      {
+        id: 'sa_rebel',
+        title: 'מרד הנעורים / Rebel Without a Cause',
+        director: 'ניקולס ריי',
+        year: 1955,
+        country: 'ארה"ב',
+        duration: 111,
+        mandatory: false,
+        clips: [
+          'העימות של ג\'ים עם ההורים אחרי התאונה',
+          'מתוך A Personal Journey – מלודרמות חתרניות (סירק, ריי)'
+        ]
+      },
+      {
+        id: 'sa_some_like',
+        title: 'חמים וטעים / Some Like It Hot',
+        director: 'בילי ויילדר',
+        year: 1959,
+        country: 'ארה"ב',
+        duration: 120,
+        mandatory: false,
+        clips: [
+          'הפיתוי של שוגר',
+          'הטנגו של דפני ואוזגוד'
+        ]
+      },
+      {
+        id: 'sa_apartment',
+        title: 'הדירה / The Apartment',
+        director: 'בילי ויילדר',
+        year: 1960,
+        country: 'ארה"ב',
+        duration: 125,
+        mandatory: false,
+        clips: [
+          '7 דקות ראשונות'
+        ]
+      },
+      {
+        id: 'sa_vertigo',
+        title: 'ורטיגו / Vertigo',
+        director: 'אלפרד היצ\'קוק',
+        year: 1958,
+        country: 'ארה"ב',
+        duration: 124,
+        mandatory: false,
+        clips: [
+          'כותרות הפתיחה',
+          'סיקוונס הפתיחה',
+          'מהביקור עם ג\'ודי בחנות הבגדים עד ההתגלות המלאה שלה'
+        ]
+      },
+      {
+        id: 'sa_psycho',
+        title: 'פסיכו / Psycho',
+        director: 'אלפרד היצ\'קוק',
+        year: 1960,
+        country: 'ארה"ב',
+        duration: 109,
+        mandatory: false,
+        clips: [
+          'השיחה של נורמן ומריון, ההצצה של נורמן',
+          'סיקוונס הרצח במקלחת',
+          'השוואה בין Psycho של היצ\'קוק לגרסת גוס ואן סנט 1998'
+        ]
+      },
+      {
+        id: 'sa_nxnw',
+        title: 'מזימות בינלאומיות / North by Northwest',
+        director: 'אלפרד היצ\'קוק',
+        year: 1959,
+        country: 'ארה"ב',
+        duration: 136,
+        mandatory: false,
+        clips: [
+          'הפתיחה',
+          'בחדר המלון של קפלן',
+          'המעלית',
+          'סוף הר ראשמור עד סיום הסרט'
+        ]
+      },
+      {
+        id: 'sa_day_earth',
+        title: 'היום שבו העולם עמד מלכת / The Day the Earth Stood Still',
+        director: 'רוברט וויז',
+        year: 1951,
+        country: 'ארה"ב',
+        duration: 92,
+        mandatory: false,
+        clips: [
+          'הנאום של קלאטו בפני נציגי האנושות'
+        ]
+      },
+      {
+        id: 'sa_invasion',
+        title: 'פלישת חוטפי הגופות / Invasion of the Body Snatchers',
+        director: 'דון סיגל',
+        year: 1956,
+        country: 'ארה"ב',
+        duration: 80,
+        mandatory: false,
+        clips: [
+          'ד"ר בנל ובטי צופים בעירה מחלון המשרד ונלכדים'
+        ]
+      },
+      {
+        id: 'sa_hollywood_ten',
+        title: 'The Hollywood Ten (תיעודי)',
+        director: '',
+        year: 1950,
         country: 'ארה"ב',
         duration: null,
         mandatory: false,
-        clips: []
+        clips: [
+          'קטע מהסרט התיעודי'
+        ]
+      },
+      {
+        id: 'sa_noon',
+        title: 'בצהרי היום / High Noon',
+        director: 'פרד זינמן',
+        year: 1952,
+        country: 'ארה"ב',
+        duration: 85,
+        mandatory: false,
+        clips: [
+          'כתיבת הצוואה והעריכה הצולבת',
+          'סיום הסרט'
+        ]
+      },
+      {
+        id: 'sa_kazan_oscar',
+        title: 'קליפ: הענקת אוסקר הכבוד לאיליה קזאן',
+        director: '',
+        year: 1999,
+        country: '',
+        duration: null,
+        mandatory: false,
+        clips: [
+          'הענקת האוסקר ותגובות הקהל'
+        ]
       }
     ]
   },
@@ -45,37 +243,181 @@ const LESSONS = [
     id: 'א2',
     semester: 'א',
     title: 'מודרניזם בקולנוע הצרפתי של שנות ה-50',
-    subtitle: 'ברסון · טאטי · מלוויל',
+    subtitle: 'רובר ברסון · ז\'אק טאטי · ז\'אן-פייר מלוויל · אינגמר ברגמן',
     films: [
       {
-        id: 'sem_a_bresson',
-        title: 'נושא: רובר ברסון',
-        director: 'Robert Bresson',
-        year: null,
+        id: 'sa_bresson_condemned',
+        title: 'הנידון למוות ברח / A Man Escaped',
+        director: 'רובר ברסון',
+        year: 1956,
         country: 'צרפת',
-        duration: null,
+        duration: 100,
         mandatory: false,
-        clips: []
+        clips: [
+          '5 דקות ראשונות'
+        ]
       },
       {
-        id: 'sem_a_tati',
-        title: 'נושא: ז\'אק טאטי',
-        director: 'Jacques Tati',
-        year: null,
+        id: 'sa_bresson_gentle',
+        title: 'אישה עדינה / Une femme douce',
+        director: 'רובר ברסון',
+        year: 1969,
         country: 'צרפת',
-        duration: null,
+        duration: 88,
         mandatory: false,
-        clips: []
+        clips: [
+          '5 דקות ראשונות'
+        ]
       },
       {
-        id: 'sem_a_melville',
-        title: 'נושא: ז\'אן-פייר מלוויל',
-        director: 'Jean-Pierre Melville',
-        year: null,
+        id: 'sa_bresson_pickpocket',
+        title: 'הכייס / Pickpocket',
+        director: 'רובר ברסון',
+        year: 1959,
         country: 'צרפת',
-        duration: null,
+        duration: 75,
         mandatory: false,
-        clips: []
+        clips: [
+          'סצנת הכיוס בתחנת הרכבת'
+        ]
+      },
+      {
+        id: 'sa_bresson_money',
+        title: 'הכסף / L\'Argent',
+        director: 'רובר ברסון',
+        year: 1983,
+        country: 'צרפת',
+        duration: 85,
+        mandatory: false,
+        clips: [
+          'מוכר הדלק מקבל את השטר המזויף והולך למסעדה'
+        ]
+      },
+      {
+        id: 'sa_tati_holiday',
+        title: 'חופשתו של מר הולו / Les Vacances de M. Hulot',
+        director: 'ז\'אק טאטי',
+        year: 1953,
+        country: 'צרפת',
+        duration: 86,
+        mandatory: false,
+        clips: [
+          'על החוף',
+          'הסירה המתקפלת',
+          'פחית הצבע'
+        ]
+      },
+      {
+        id: 'sa_tati_uncle',
+        title: 'זה הדוד שלי / Mon Oncle',
+        director: 'ז\'אק טאטי',
+        year: 1958,
+        country: 'צרפת',
+        duration: 117,
+        mandatory: false,
+        clips: [
+          'ארוחת הגן המשובשת'
+        ]
+      },
+      {
+        id: 'sa_tati_playtime',
+        title: 'פלייטיים / Playtime',
+        director: 'ז\'אק טאטי',
+        year: 1967,
+        country: 'צרפת',
+        duration: 124,
+        mandatory: false,
+        clips: [
+          'ההגעה לבניין המשרדים וחדר ההמתנה',
+          'Video essay: PlayTime Anatomy of a Gag',
+          'Video essay: Jacques Tati – Where to Find Visual Comedy'
+        ]
+      },
+      {
+        id: 'sa_melville_silence',
+        title: 'שתיקת הים / Le Silence de la Mer',
+        director: 'ז\'אן-פייר מלוויל',
+        year: 1949,
+        country: 'צרפת',
+        duration: 87,
+        mandatory: false,
+        clips: [
+          'כניסת הקצין הגרמני לבית'
+        ]
+      },
+      {
+        id: 'sa_melville_samurai',
+        title: 'הסמוראי / Le Samouraï',
+        director: 'ז\'אן-פייר מלוויל',
+        year: 1967,
+        country: 'צרפת',
+        duration: 105,
+        mandatory: false,
+        clips: [
+          'הפתיחה של הסרט עד ההגעה למתקין לוחיות הרישוי'
+        ]
+      },
+      {
+        id: 'sa_melville_army',
+        title: 'צבא הצללים / Army of Shadows',
+        director: 'ז\'אן-פייר מלוויל',
+        year: 1969,
+        country: 'צרפת/איטליה',
+        duration: 145,
+        mandatory: false,
+        clips: [
+          'סצנת חיסול הבוגד'
+        ]
+      },
+      {
+        id: 'sa_bergman_summer',
+        title: 'הקיץ שלי עם מוניקה / Summer with Monika',
+        director: 'אינגמר ברגמן',
+        year: 1953,
+        country: 'שבדיה',
+        duration: 96,
+        mandatory: false,
+        clips: [
+          'החופש בקיץ',
+          'החיכוך עם הבעל עד המבט למצלמה'
+        ]
+      },
+      {
+        id: 'sa_bergman_strawberries',
+        title: 'תותי בר / Wild Strawberries',
+        director: 'אינגמר ברגמן',
+        year: 1957,
+        country: 'שבדיה',
+        duration: 91,
+        mandatory: false,
+        clips: [
+          'הפתיחה עד סוף החלום'
+        ]
+      },
+      {
+        id: 'sa_bergman_seventh',
+        title: 'החותם השביעי / The Seventh Seal',
+        director: 'אינגמר ברגמן',
+        year: 1957,
+        country: 'שבדיה',
+        duration: 96,
+        mandatory: false,
+        clips: [
+          'הפתיחה',
+          'השיחה עם המוות בכנסיה'
+        ]
+      },
+      {
+        id: 'sa_bergman_persona',
+        title: 'פרסונה / Persona',
+        director: 'אינגמר ברגמן',
+        year: 1966,
+        country: 'שבדיה',
+        duration: 80,
+        mandatory: false,
+        clips: [
+          'הפתיחה'
+        ]
       }
     ]
   },
