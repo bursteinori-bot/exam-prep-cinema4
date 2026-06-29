@@ -1,354 +1,327 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl" data-theme="light" data-font="yehuda">
+<html lang="he" dir="rtl" data-theme="light" data-font="classic">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>תולדות הקולנוע 4 - הכנה למבחן</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     @font-face { font-family:'Yehuda'; src:url('fonts/yehudaclm-bold-webfont.ttf') format('truetype'); font-weight:700; }
     @font-face { font-family:'Yehuda'; src:url('fonts/yehudaclm-light-webfont.ttf') format('truetype'); font-weight:300; }
     @font-face { font-family:'Baskerville'; src:local('Baskerville'); font-weight:400; }
     @font-face { font-family:'Baskerville'; src:local('Baskerville'); font-weight:600 700; }
 
-    /* ── Themes ── */
+    /* ── Theme variables ── */
     :root {
-      --bg:#F4F3EF; --surface:#FFFFFF; --surface2:#FAFAF7; --inset:#F0EFE9;
-      --border:#E2E1DC; --border2:#D0CFC8; --text:#1A1916; --muted:#7A7973;
-      --faint:#B8B7B1; --green:#1A7A52; --green-bg:#E6F5EE;
-      --blue:#1458A0; --gold:#8A6A00; --gold-bg:#FDF8EC;
-      --accent:#1A1916; --shadow:rgba(0,0,0,.08);
-      --transit: .22s ease;
+      --bg:#F2F1EE; --surface:#FFF; --inset:#F7F6F3;
+      --border:#E5E4E0; --text:#1C1B19; --muted:#8E8D8A;
+      --faint:#C4C3BF; --green:#1A7A52; --green-bg:#E8F5EE; --blue:#1560A8;
+      --header-bg:rgba(255,255,255,.92);
+      --shadow:0 2px 8px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.04);
+      --days-bg:#1C1B19; --days-text:#FFF;
     }
     [data-theme="dark"] {
-      --bg:#111110; --surface:#1C1C1A; --surface2:#222220; --inset:#252523;
-      --border:#2E2E2B; --border2:#3A3A36; --text:#E8E6DF; --muted:#8A8980;
-      --faint:#4A4A46; --green:#2A9A65; --green-bg:#0E2318;
-      --blue:#4A8FD4; --gold:#C8A830; --gold-bg:#1C1A0A;
-      --accent:#E8E6DF; --shadow:rgba(0,0,0,.3);
+      --bg:#141413; --surface:#1E1D1B; --inset:#252420;
+      --border:#333230; --text:#E8E6E0; --muted:#8A8880;
+      --faint:#4A4845; --green:#2EBD76; --green-bg:#0D2B1E; --blue:#4B94D8;
+      --header-bg:rgba(20,20,19,.92);
+      --days-bg:#E8E6E0; --days-text:#1C1B19;
+      --shadow:0 2px 12px rgba(0,0,0,.32),0 0 0 .5px rgba(0,0,0,.22);
     }
 
     /* ── Font stacks ── */
-    [data-font="yehuda"] { font-family:"Yehuda","Baskerville",Georgia,serif; }
-    [data-font="gill"]   { font-family:"Gill Sans","Gill Sans MT",Optima,sans-serif; }
-    [data-font="play"]   { font-family:"Playfair Display",Georgia,serif; }
-    [data-font="modern"] { font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; }
+    [data-font="classic"] {
+      --f-body:"Yehuda","Baskerville",Georgia,serif;
+      --f-head:"Yehuda","Hoefler Text",Georgia,serif;
+      --f-mono:"Courier New",monospace;
+    }
+    [data-font="modern"] {
+      --f-body:-apple-system,"Segoe UI",Arial,sans-serif;
+      --f-head:-apple-system,"Segoe UI",Arial,sans-serif;
+      --f-mono:"SF Mono","Fira Code","Courier New",monospace;
+    }
+    [data-font="elegant"] {
+      --f-body:"Palatino","Hoefler Text",Georgia,serif;
+      --f-head:"Hoefler Text",Palatino,Georgia,serif;
+      --f-mono:"Courier New",monospace;
+    }
 
-    html { font-size:20px; scroll-behavior:smooth; }
+    html { font-size:36px; }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body { background:var(--bg); color:var(--text); min-height:100vh; direction:rtl; -webkit-font-smoothing:antialiased; transition:background var(--transit),color var(--transit); }
+    body { background:var(--bg); color:var(--text); font-family:var(--f-body); min-height:100vh; direction:rtl; -webkit-font-smoothing:antialiased; transition:background .2s,color .2s; }
 
     /* ── Header ── */
-    header {
-      background:var(--surface);
-      border-bottom:.5px solid var(--border);
-      padding:10px 18px 0;
-      position:sticky; top:0; z-index:200;
-      transition:background var(--transit),border-color var(--transit);
-    }
+    header { background:var(--header-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:.5px solid var(--border); padding:10px 16px 0; position:sticky; top:0; z-index:200; }
     .header-top { display:flex; align-items:center; gap:10px; padding-bottom:8px; }
 
-    header h1 {
-      font-size:.95rem; font-weight:700; color:var(--text);
-      flex:1; line-height:1.2;
-    }
+    header h1 { font-family:var(--f-head); font-size:.85rem; font-weight:600; color:var(--text); flex:1; }
 
-    /* Countdown badge */
-    .countdown-badge {
-      display:flex; flex-direction:column; align-items:center;
-      background:var(--text); color:var(--bg);
-      border-radius:10px; padding:4px 10px; flex-shrink:0;
-      transition:background var(--transit),color var(--transit);
-    }
-    .countdown-badge .days-num {
-      font-size:1.2rem; font-weight:700; line-height:1;
-      font-variant-numeric:tabular-nums;
-    }
-    .countdown-badge .days-label { font-size:.42rem; opacity:.75; letter-spacing:.04em; margin-top:1px; }
+    /* Days badge */
+    .days-badge { display:flex; flex-direction:column; align-items:center; background:var(--days-bg); color:var(--days-text); border-radius:999px; padding:4px 10px; min-width:44px; flex-shrink:0; }
+    .days-badge .num { font-family:var(--f-mono); font-size:.72rem; font-weight:700; line-height:1; }
+    .days-badge .lbl { font-size:.38rem; letter-spacing:.04em; opacity:.7; margin-top:1px; }
 
-    /* Settings button */
-    .settings-btn {
-      width:34px; height:34px; border-radius:8px; border:.5px solid var(--border);
-      background:var(--surface2); cursor:pointer; display:flex; align-items:center;
-      justify-content:center; flex-shrink:0; transition:background var(--transit),border-color var(--transit);
-    }
-    .settings-btn:hover { background:var(--inset); border-color:var(--border2); }
-    .settings-btn svg { width:16px; height:16px; stroke:var(--muted); fill:none; stroke-width:1.8; stroke-linecap:round; }
+    /* Progress */
+    .progress-pill { display:flex; align-items:center; gap:6px; }
+    .progress-track { width:48px; height:4px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .progress-fill { height:100%; background:var(--text); border-radius:2px; transition:width .35s; }
+    .progress-pct { font-size:.58rem; font-weight:600; color:var(--text); min-width:26px; font-family:var(--f-mono); }
 
-    /* Progress in header */
-    .header-progress { display:flex; align-items:center; gap:6px; }
-    .progress-track { width:52px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
-    .progress-fill { height:100%; background:var(--text); border-radius:2px; transition:width .4s ease,background var(--transit); }
-    .progress-pct { font-size:.6rem; font-weight:700; color:var(--text); min-width:26px; }
+    /* Settings btn */
+    .settings-btn { width:34px; height:34px; border-radius:12px; border:.5px solid var(--border); background:var(--surface); color:var(--text); cursor:pointer; font-size:.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .12s; }
+    .settings-btn:hover { background:var(--inset); }
 
-    /* ── Settings panel ── */
-    .settings-panel {
-      position:fixed; top:0; left:0; right:0; bottom:0; z-index:400;
-      display:flex; align-items:flex-start; justify-content:flex-start;
-      pointer-events:none;
-    }
-    .settings-panel.open { pointer-events:auto; }
-    .settings-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.25); opacity:0; transition:opacity .2s; }
-    .settings-panel.open .settings-backdrop { opacity:1; }
-    .settings-drawer {
-      position:relative; width:min(300px,85vw); height:100vh;
-      background:var(--surface); border-left:.5px solid var(--border);
-      padding:20px 18px; transform:translateX(-100%); transition:transform .28s cubic-bezier(.32,.72,0,1);
-      overflow-y:auto; display:flex; flex-direction:column; gap:20px;
-    }
-    [dir="rtl"] .settings-drawer { border-left:none; border-right:.5px solid var(--border); transform:translateX(100%); left:auto; right:0; }
-    .settings-panel.open .settings-drawer { transform:translateX(0); }
-
-    .settings-drawer h3 { font-size:.78rem; font-weight:700; color:var(--text); margin-bottom:4px; }
-    .s-section { display:flex; flex-direction:column; gap:8px; }
-    .s-label { font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-
-    /* Toggle switch */
-    .toggle-row { display:flex; align-items:center; justify-content:space-between; }
-    .toggle-row span { font-size:.72rem; color:var(--text); }
-    .toggle {
-      width:42px; height:24px; border-radius:12px; background:var(--border);
-      border:none; cursor:pointer; position:relative; transition:background .2s; flex-shrink:0;
-    }
-    .toggle.on { background:var(--text); }
-    .toggle::after {
-      content:''; position:absolute; width:18px; height:18px; border-radius:50%;
-      background:var(--surface); top:3px; right:3px; transition:transform .2s;
-    }
-    [data-theme="dark"] .toggle::after { background:var(--bg); }
-    .toggle.on::after { transform:translateX(-18px); }
-    [dir="rtl"] .toggle.on::after { transform:translateX(18px); }
-
-    /* Font picker */
-    .font-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
-    .font-btn {
-      padding:8px; border-radius:8px; border:.5px solid var(--border);
-      background:var(--inset); cursor:pointer; font-size:.68rem; color:var(--text);
-      transition:background .15s,border-color .15s; text-align:center;
-    }
-    .font-btn:hover { background:var(--border); }
-    .font-btn.active { border-color:var(--text); background:var(--text); color:var(--bg); }
-    .font-btn span { display:block; font-size:1rem; font-weight:600; margin-bottom:2px; }
-
-    /* ── Tab bar ── */
-    .tab-bar { display:flex; overflow-x:auto; scrollbar-width:none; gap:0; margin:0 -18px; padding:0 14px; }
+    /* Tab bar */
+    .tab-bar { display:flex; overflow-x:auto; scrollbar-width:none; gap:0; margin:0 -16px; padding:0 12px; }
     .tab-bar::-webkit-scrollbar { display:none; }
-    .tab-btn { flex-shrink:0; padding:6px 10px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:.68rem; font-family:inherit; cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-.5px; }
+    .tab-btn { flex-shrink:0; padding:6px 10px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:.62rem; font-family:var(--f-body); cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-.5px; text-align:right; }
     .tab-btn:hover { color:var(--text); }
     .tab-btn.active { color:var(--text); font-weight:600; border-bottom-color:var(--text); }
-    .tab-frac { font-size:.55rem; color:var(--faint); margin-right:2px; }
+    .tab-btn .tab-num { display:block; font-size:.44rem; color:var(--faint); font-family:var(--f-mono); margin-bottom:1px; }
+    .tab-btn.active .tab-num { color:var(--muted); }
+    .tab-btn .tab-title { display:block; }
+    .tab-btn .tab-frac { font-size:.44rem; color:var(--faint); }
     .tab-btn.active .tab-frac { color:var(--muted); }
     .tab-divider { width:1px; background:var(--border); margin:5px 3px; flex-shrink:0; }
-    .tab-sem-label { font-size:.52rem; color:var(--faint); padding:0 4px; align-self:center; flex-shrink:0; }
-    .tab-btn.sem-a { color:var(--gold); }
-    .tab-btn.sem-a.active { border-bottom-color:var(--gold); }
+    .tab-sem-label { font-size:.5rem; color:var(--faint); padding:0 4px; align-self:center; flex-shrink:0; white-space:nowrap; }
+    .tab-btn.sem-a .tab-num { color:#C4A84A; }
+    .tab-btn.sem-a.active { color:#A08840; border-bottom-color:#A08840; }
 
-    /* Mobile nav bar */
+    /* Mobile nav */
     .mob-nav { display:none; align-items:center; border-top:.5px solid var(--border); }
-    .mob-menu-btn { padding:9px 13px; background:none; border:none; border-left:.5px solid var(--border); font-size:.85rem; cursor:pointer; color:var(--muted); min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; }
-    [dir="rtl"] .mob-menu-btn { border-left:none; border-right:.5px solid var(--border); }
-    .mob-nav-label { flex:1; padding:9px 13px; overflow:hidden; }
-    .mob-nav-title { font-size:.72rem; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .mob-nav-sub { font-size:.56rem; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mob-nav-label { flex:1; padding:8px 12px; overflow:hidden; }
+    .mob-nav-label .mn-num { font-size:.5rem; color:var(--muted); font-family:var(--f-mono); display:block; }
+    .mob-nav-label .mn-title { font-size:.66rem; font-weight:600; color:var(--text); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mob-menu-btn { padding:8px 14px; background:none; border:none; border-right:.5px solid var(--border); font-size:.8rem; cursor:pointer; color:var(--text); min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; }
 
     /* Nav sheet */
-    .nav-sheet { position:fixed; bottom:0; right:0; left:0; background:var(--surface); border-radius:18px 18px 0 0; box-shadow:0 -4px 24px var(--shadow); z-index:302; max-height:82vh; overflow-y:auto; transform:translateY(100%); transition:transform .28s cubic-bezier(.32,.72,0,1); }
+    .nav-sheet { position:fixed; bottom:0; right:0; left:0; background:var(--surface); border-radius:26px 26px 0 0; box-shadow:0 -4px 24px rgba(0,0,0,.18); z-index:302; max-height:80vh; overflow-y:auto; transform:translateY(100%); transition:transform .28s cubic-bezier(.32,.72,0,1); }
     .nav-sheet.open { transform:translateY(0); }
-    .ns-header { padding:14px 18px 10px; font-size:.78rem; font-weight:700; border-bottom:.5px solid var(--border); color:var(--text); }
-    .ns-item { padding:11px 18px; border-bottom:.5px solid var(--border); cursor:pointer; transition:background .1s; min-height:52px; display:flex; align-items:center; justify-content:space-between; }
+    .ns-header { padding:12px 16px 8px; font-family:var(--f-head); font-size:.75rem; font-weight:700; border-bottom:.5px solid var(--border); }
+    .ns-item { display:flex; align-items:center; padding:10px 16px; border-bottom:.5px solid var(--border); cursor:pointer; transition:background .1s; min-height:48px; gap:8px; }
     .ns-item:hover, .ns-item.active { background:var(--inset); }
-    .ns-item-title { font-size:.75rem; font-weight:700; color:var(--text); }
-    .ns-item-num { font-size:.58rem; color:var(--faint); }
-    .ns-item-frac { font-size:.6rem; color:var(--muted); flex-shrink:0; }
-    .ns-item.sem-a .ns-item-title { color:var(--gold); }
+    .ns-item-num { font-size:.5rem; color:var(--faint); font-family:var(--f-mono); min-width:24px; flex-shrink:0; }
+    .ns-item-title { font-size:.66rem; color:var(--text); line-height:1.3; flex:1; }
+    .ns-item.active .ns-item-title { font-weight:600; }
+    .ns-item-frac { font-size:.54rem; color:var(--muted); white-space:nowrap; font-family:var(--f-mono); }
+    .ns-item.sem-a .ns-item-title { color:#A08840; }
 
-    /* ── Main ── */
-    main { max-width:100%; padding:16px 14px 48px; }
+    /* Main */
+    main { max-width:100%; padding:16px 12px 56px; }
     .panel { display:none; } .panel.active { display:block; }
 
-    /* ── Lesson header ── */
+    /* Lesson header */
     .lesson-hd { margin-bottom:14px; }
-    .lesson-hd-top { display:flex; align-items:baseline; gap:10px; margin-bottom:3px; }
-    .lesson-hd h2 { font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.25; flex:1; }
-    .lesson-num-badge { font-size:.55rem; color:var(--muted); font-weight:400; flex-shrink:0; }
-    .lesson-frac { font-size:.62rem; color:var(--muted); }
-    .lesson-frac b { color:var(--text); font-weight:700; }
-    .lesson-subtitle { font-size:.62rem; color:var(--muted); margin-top:2px; }
+    .lesson-hd .l-num { font-size:.54rem; color:var(--faint); font-family:var(--f-mono); letter-spacing:.06em; margin-bottom:2px; }
+    .lesson-hd h2 { font-family:var(--f-head); font-size:1rem; font-weight:600; color:var(--text); line-height:1.3; }
+    .lesson-hd .l-frac { font-size:.58rem; color:var(--muted); margin-top:3px; font-family:var(--f-mono); }
+    .lesson-hd .l-frac b { color:var(--text); }
+    .lesson-subtitle { font-size:.62rem; color:#A08840; margin-top:2px; margin-bottom:10px; }
 
-    /* ── Section box ── */
-    .sec-box { background:var(--surface); border-radius:12px; box-shadow:0 1px 4px var(--shadow),0 0 0 .5px rgba(0,0,0,.04); margin-top:14px; overflow:hidden; transition:background var(--transit); }
-    .sec-box-hd { display:flex; align-items:center; justify-content:space-between; padding:9px 13px; border-bottom:.5px solid var(--border); }
-    .sec-box-hd h3 { font-size:.72rem; font-weight:700; color:var(--text); }
-    .sec-box-body { padding:10px 12px; }
+    /* Section boxes */
+    .sec-box { background:var(--surface); border-radius:16px; box-shadow:var(--shadow); margin-top:12px; overflow:hidden; }
+    .sec-box-hd { display:flex; align-items:center; justify-content:space-between; padding:9px 13px 8px; border-bottom:.5px solid var(--border); }
+    .sec-box-hd h3 { font-family:var(--f-head); font-size:.7rem; font-weight:700; color:var(--text); }
+    .sec-box-body { padding:9px 12px; }
 
-    /* ── Film grid ── */
-    .film-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; align-items:start; }
-    @media(max-width:820px) { .film-grid { grid-template-columns:1fr !important; gap:6px; } }
+    /* Film cards */
+    .film-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; align-items:start; }
+    @media(max-width:900px) { .film-grid { grid-template-columns:repeat(3,1fr); } }
+    @media(max-width:580px) { .film-grid { grid-template-columns:repeat(2,1fr); } }
 
-    /* ── Film card ── */
-    .fc { background:var(--surface2); border-radius:10px; border:.5px solid var(--border); padding:9px 10px 8px; display:flex; flex-direction:column; transition:background var(--transit),border-color var(--transit); }
-    .fc.watched { background:var(--green-bg); border-color:rgba(26,122,82,.25); }
-    .fc.sem-a-card { background:var(--surface2); }
-
-    .fc-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:5px; gap:5px; }
-    .fc-check { width:16px; height:16px; min-width:16px; border-radius:50%; border:1.5px solid var(--border2); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.48rem; color:#fff; transition:background .15s,border-color .15s; flex-shrink:0; margin-top:1px; }
+    .fc { background:var(--surface); border-radius:14px; box-shadow:var(--shadow); padding:10px 11px 9px; display:flex; flex-direction:column; transition:box-shadow .15s,transform .15s; }
+    .fc:hover { box-shadow:0 4px 14px rgba(0,0,0,.1); }
+    .fc.watched { background:var(--green-bg); }
+    .fc-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:4px; gap:4px; }
+    .fc-check { width:18px; height:18px; min-width:18px; border-radius:50%; border:1.5px solid var(--border); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.52rem; color:#fff; transition:background .15s,border-color .15s; flex-shrink:0; margin-top:1px; }
     .fc-check:hover { border-color:var(--green); }
     .fc.watched .fc-check { background:var(--green); border-color:var(--green); }
-    .fc-type { font-size:.5rem; font-weight:600; letter-spacing:.03em; padding:1px 5px; border-radius:20px; flex-shrink:0; }
-    .fc-type.mandatory { background:rgba(20,88,160,.1); color:var(--blue); }
-    .fc-type.clip { background:rgba(0,0,0,.06); color:var(--muted); }
-    [data-theme="dark"] .fc-type.clip { background:rgba(255,255,255,.06); }
-
-    .fc-title { font-size:.68rem; font-weight:600; color:var(--text); line-height:1.3; }
+    .fc-type { font-size:.48rem; font-weight:600; letter-spacing:.03em; padding:1px 5px; border-radius:20px; flex-shrink:0; }
+    .fc-type.mandatory { background:rgba(21,96,168,.12); color:var(--blue); }
+    .fc-type.clip { background:rgba(128,128,128,.1); color:var(--muted); }
+    .fc-title { font-family:var(--f-head); font-size:.66rem; font-weight:600; color:var(--text); line-height:1.3; }
     .fc.watched .fc-title { color:var(--muted); text-decoration:line-through; text-decoration-color:var(--faint); }
-    .fc-meta { font-family:"Courier New",monospace; font-size:.5rem; color:var(--faint); margin-top:2px; }
-
-    .fc-clips { margin-top:6px; border-top:.5px solid var(--border); padding-top:5px; display:flex; flex-direction:column; gap:3px; }
+    .fc-meta { font-family:var(--f-mono); font-size:.48rem; color:var(--faint); margin-top:2px; }
+    .fc-clips { margin-top:5px; border-top:.5px solid var(--border); padding-top:4px; display:flex; flex-direction:column; gap:3px; }
     .fc-clip-row { display:flex; align-items:flex-start; gap:5px; }
-    .fc-clip-box { width:11px; height:11px; min-width:11px; margin-top:2px; border-radius:2px; border:1.5px solid var(--faint); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.45rem; color:var(--bg); transition:background .1s,border-color .1s; flex-shrink:0; }
+    .fc-clip-box { width:11px; height:11px; min-width:11px; margin-top:2px; border-radius:4px; border:1.5px solid var(--faint); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.44rem; color:#fff; transition:background .1s,border-color .1s; flex-shrink:0; }
     .fc-clip-box:hover { border-color:var(--text); }
     .fc-clip-row.done .fc-clip-box { background:var(--text); border-color:var(--text); }
-    .fc-clip-txt { font-size:.58rem; color:var(--muted); line-height:1.45; }
+    .fc-clip-txt { font-size:.56rem; color:var(--muted); line-height:1.4; }
     .fc-clip-row.done .fc-clip-txt { color:var(--faint); text-decoration:line-through; }
 
-    /* ── Wit toast ── */
-    .wit-toast {
-      position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
-      background:var(--text); color:var(--bg); padding:10px 18px; border-radius:22px;
-      font-size:.7rem; max-width:min(320px,88vw); text-align:center;
-      box-shadow:0 4px 20px rgba(0,0,0,.25); z-index:500; line-height:1.45;
-      transition:transform .3s cubic-bezier(.32,.72,0,1), opacity .3s;
-      opacity:0; pointer-events:none;
-    }
-    .wit-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
-
-    /* ── Overview ── */
+    /* Overview */
     .ov-header { margin-bottom:16px; }
-    .ov-header h2 { font-size:1rem; font-weight:700; color:var(--text); margin-bottom:2px; }
-    .ov-header p { font-size:.62rem; color:var(--muted); }
-
-    .ov-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; align-items:stretch; }
+    .ov-header h2 { font-family:var(--f-head); font-size:.95rem; font-weight:600; margin-bottom:2px; }
+    .ov-header p { font-size:.58rem; color:var(--muted); }
+    .ov-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; align-items:stretch; }
     @media(max-width:900px) { .ov-grid { grid-template-columns:repeat(4,1fr); } }
-    @media(max-width:820px) { .ov-grid { grid-template-columns:1fr !important; gap:6px; } }
-
-    .ov-card { background:var(--surface); border-radius:12px; padding:12px 13px; border:.5px solid var(--border); cursor:pointer; transition:box-shadow .15s,background var(--transit),border-color var(--transit); display:flex; flex-direction:column; gap:6px; }
-    .ov-card:hover { box-shadow:0 3px 12px var(--shadow); }
-    .ov-card.sem-a { background:var(--gold-bg); border-color:rgba(138,106,0,.2); }
-
-    .ov-num { font-size:.52rem; color:var(--faint); letter-spacing:.04em; }
-    .ov-title { font-size:.75rem; font-weight:700; color:var(--text); line-height:1.3; }
-    .ov-card.sem-a .ov-title { color:var(--gold); }
-    .ov-directors { font-size:.58rem; color:var(--muted); line-height:1.5; }
-
-    .ov-prog-row { display:flex; align-items:center; gap:6px; }
-    .ov-track { flex:1; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
-    .ov-fill { height:100%; background:var(--text); border-radius:2px; transition:width .3s,background var(--transit); }
+    @media(max-width:640px) { .ov-grid { grid-template-columns:repeat(2,1fr) !important; gap:6px; } }
+    .ov-card { background:var(--surface); border-radius:11px; padding:11px 12px; box-shadow:var(--shadow); cursor:pointer; transition:box-shadow .15s; display:flex; flex-direction:column; }
+    .ov-card:hover { box-shadow:0 3px 12px rgba(0,0,0,.1); }
+    .ov-card.sem-a { background:var(--surface); border:.5px solid #C4A84A44; }
+    .ov-num { font-size:.48rem; color:var(--faint); font-family:var(--f-mono); margin-bottom:2px; }
+    .ov-card.sem-a .ov-num { color:#C4A84A; }
+    .ov-title { font-family:var(--f-head); font-size:.68rem; font-weight:600; color:var(--text); line-height:1.35; margin-bottom:7px; }
+    .ov-prog-row { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
+    .ov-track { flex:1; height:2.5px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .ov-fill { height:100%; background:var(--text); border-radius:2px; transition:width .3s; }
     .ov-fill.full { background:var(--green); }
-    .ov-frac { font-size:.58rem; color:var(--muted); white-space:nowrap; }
+    .ov-frac { font-size:.52rem; color:var(--muted); white-space:nowrap; font-family:var(--f-mono); }
     .ov-frac.full { color:var(--green); }
     .ov-films { display:flex; flex-wrap:wrap; gap:3px; }
-    .ov-film-tag { font-size:.52rem; font-weight:600; color:var(--text); background:var(--inset); border:.5px solid var(--border); border-radius:4px; padding:2px 6px; white-space:nowrap; }
+    .ov-film-m { font-size:.52rem; font-weight:600; color:var(--text); background:var(--inset); border:.5px solid var(--border); border-radius:4px; padding:1px 5px; white-space:nowrap; }
     .ov-film-done { color:var(--faint); background:transparent; text-decoration:line-through; }
 
-    /* ── Reading Panel ── */
+    /* Compact overview rows */
+    .ov-list { display:flex; flex-direction:column; gap:7px; }
+    .ov-row { display:flex; align-items:center; gap:8px; background:var(--surface); border-radius:14px; padding:10px 14px; box-shadow:var(--shadow); cursor:pointer; min-height:42px; transition:box-shadow .15s,transform .15s; }
+    .ov-row:hover { box-shadow:0 4px 16px rgba(0,0,0,.12); transform:translateY(-1px); }
+    .ov-row-bar { width:4px; min-height:24px; border-radius:4px; background:var(--border); flex-shrink:0; overflow:hidden; position:relative; }
+    .ov-row-bar-fill { position:absolute; bottom:0; left:0; right:0; background:var(--text); transition:height .3s; }
+    .ov-row-bar-fill.full { background:var(--green); }
+    .ov-row-num { font-size:.48rem; color:var(--faint); font-family:var(--f-mono); flex-shrink:0; min-width:24px; }
+    .ov-row-title { font-family:var(--f-head); font-size:.66rem; font-weight:600; color:var(--text); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ov-row-dirs { font-size:.46rem; color:var(--muted); flex-shrink:0; white-space:nowrap; overflow:hidden; max-width:35%; text-overflow:ellipsis; }
+    .ov-row-frac { font-size:.52rem; color:var(--muted); font-family:var(--f-mono); flex-shrink:0; min-width:32px; text-align:left; }
+    .ov-row-frac.full { color:var(--green); }
+    .ov-row.sem-a { border-right:2px solid #C4A84A; }
+    /* Mark all */
+    .mark-all-btn { font-size:.52rem; padding:4px 12px; border-radius:10px; border:.5px solid var(--border); background:var(--inset); color:var(--muted); cursor:pointer; font-family:var(--f-body); transition:background .12s,color .12s; white-space:nowrap; flex-shrink:0; }
+    .mark-all-btn:hover { background:var(--text); color:var(--bg); }
+    /* Confetti */
+    @keyframes confetti-fly { 0%{transform:translate(0,0) rotate(0deg);opacity:1;} 100%{transform:translate(var(--cx),var(--cy)) rotate(var(--cr));opacity:0;} }
+    .confetti-p { position:fixed; pointer-events:none; z-index:600; border-radius:2px; animation:confetti-fly .9s ease-out forwards; }
+
+    /* Reading Panel */
     .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.2); z-index:299; opacity:0; pointer-events:none; transition:opacity .25s; }
     .backdrop.open { opacity:1; pointer-events:auto; }
-    .reading-panel { position:fixed; bottom:0; right:0; left:0; height:82vh; background:var(--surface); border-radius:18px 18px 0 0; box-shadow:0 -4px 32px var(--shadow); z-index:300; display:flex; flex-direction:column; transform:translateY(100%); transition:transform .28s cubic-bezier(.32,.72,0,1),background var(--transit); }
-    .reading-panel.open { transform:translateY(0); }
-    .rp-header { display:flex; align-items:center; justify-content:space-between; padding:13px 18px 10px; border-bottom:.5px solid var(--border); flex-shrink:0; }
-    .rp-title { font-size:.82rem; font-weight:700; color:var(--text); line-height:1.3; }
-    .rp-close { width:28px; height:28px; border-radius:50%; border:none; background:var(--inset); color:var(--muted); cursor:pointer; font-size:.68rem; display:flex; align-items:center; justify-content:center; }
-    .rp-body { flex:1; overflow-y:auto; padding:16px 20px 36px; direction:rtl; }
-    .rp-date { font-family:"Courier New",monospace; font-size:.54rem; color:var(--muted); margin-bottom:12px; }
-    .rp-heading { font-size:.75rem; font-weight:700; color:var(--text); margin-top:14px; margin-bottom:3px; }
-    .rp-para { font-size:.68rem; line-height:1.78; color:var(--text); margin-bottom:5px; }
-    .rp-para.bold { font-weight:700; margin-top:10px; }
-    .rp-list { padding-right:14px; margin-bottom:6px; }
-    .rp-li { font-size:.66rem; line-height:1.72; color:var(--text); margin-bottom:2px; }
+    .sheet { position:fixed; bottom:0; right:0; left:0; background:var(--surface); border-radius:26px 26px 0 0; box-shadow:0 -4px 32px rgba(0,0,0,.18); z-index:300; display:flex; flex-direction:column; transform:translateY(100%); transition:transform .28s cubic-bezier(.32,.72,0,1); }
+    .sheet.open { transform:translateY(0); }
+    .sheet-tall { height:84vh; }
+    .sheet-auto { max-height:60vh; overflow-y:auto; }
+    .sheet-hd { display:flex; align-items:center; justify-content:space-between; padding:12px 16px 10px; border-bottom:.5px solid var(--border); flex-shrink:0; }
+    .sheet-title { font-family:var(--f-head); font-size:.76rem; font-weight:700; color:var(--text); }
+    .sheet-close { width:28px; height:28px; border-radius:50%; border:none; background:var(--inset); color:var(--muted); cursor:pointer; font-size:.65rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .sheet-body { flex:1; overflow-y:auto; padding:14px 18px 36px; direction:rtl; }
+    .sheet-body::-webkit-scrollbar { width:3px; }
+    .sheet-body::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+    .rp-date { font-family:var(--f-mono); font-size:.52rem; color:var(--muted); margin-bottom:10px; }
+    .rp-heading { font-size:.68rem; font-weight:700; color:var(--text); margin-top:13px; margin-bottom:2px; }
+    .rp-para { font-size:.62rem; line-height:1.75; color:var(--text); margin-bottom:4px; direction:rtl; }
+    .rp-para.bold { font-weight:700; margin-top:9px; margin-bottom:1px; }
+    .rp-list { padding-right:13px; margin-bottom:5px; }
+    .rp-li { font-size:.6rem; line-height:1.7; color:var(--text); margin-bottom:2px; direction:rtl; }
 
-    /* ── Mobile ── */
+    /* Settings panel */
+    .settings-body { padding:16px; }
+    .set-section { margin-bottom:18px; }
+    .set-label { font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:8px; }
+    .set-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .set-opt { padding:9px 16px; border-radius:12px; border:.5px solid var(--border); background:var(--inset); font-size:.65rem; font-family:var(--f-body); color:var(--text); cursor:pointer; transition:all .12s; }
+    .set-opt:hover { border-color:var(--text); }
+    .set-opt.active { background:var(--text); color:var(--bg); border-color:var(--text); }
+    [data-theme="dark"] .set-opt.active { background:#3A3935; color:var(--text); border-color:var(--faint); }
+
+    /* Scroll to top */
+    .scroll-top { position:fixed; bottom:72px; left:14px; width:36px; height:36px; border-radius:50%; background:var(--surface); border:.5px solid var(--border); box-shadow:var(--shadow); color:var(--text); font-size:.65rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:150; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .scroll-top.visible { opacity:1; pointer-events:auto; }
+    /* Done row */
+    .ov-row.done { background:var(--green-bg); }
+    .ov-row.done .ov-row-title { color:var(--green); }
+
+    /* Toast */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--text); color:var(--bg); border-radius:20px; padding:11px 20px; font-size:.6rem; line-height:1.5; z-index:500; opacity:0; transition:all .3s; max-width:88vw; text-align:center; pointer-events:none; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* Mobile */
     @media(max-width:820px) {
-      html { font-size:16px; }
       .tab-bar { display:none; }
       .mob-nav { display:flex; }
-      .reading-panel { height:91vh; }
-      .header-top { gap:8px; }
-      header h1 { font-size:.88rem; }
-      .settings-drawer { width:100vw; border-radius:18px 18px 0 0; height:auto; max-height:80vh; position:fixed; bottom:0; top:auto; transform:translateY(100%); }
-      [dir="rtl"] .settings-drawer { border-right:none; border-top:.5px solid var(--border); }
-      .settings-panel.open .settings-drawer { transform:translateY(0); }
-      main { padding:12px 10px 44px; }
+      .film-grid { grid-template-columns:1fr !important; }
+      .sheet-tall { height:92vh; }
+      .fc-check { width:28px; height:28px; font-size:.6rem; }
+      .fc-clip-box { width:18px; height:18px; min-width:18px; font-size:.52rem; }
     }
+    @media(max-width:480px) { html { font-size:22px; } header { padding:8px 12px 0; } main { padding:12px 10px 48px; } }
+    @media(max-width:360px) { html { font-size:19px; } }
   </style>
 </head>
 <body>
 
-<!-- Settings Panel -->
-<div class="settings-panel" id="settings-panel">
-  <div class="settings-backdrop" id="settings-backdrop"></div>
-  <div class="settings-drawer">
-    <div class="s-section">
-      <div class="s-label">מצב תצוגה</div>
-      <div class="toggle-row">
-        <span id="theme-label">בהיר</span>
-        <button class="toggle" id="theme-toggle" onclick="toggleTheme()"></button>
-      </div>
-    </div>
-    <div class="s-section">
-      <div class="s-label">פונט</div>
-      <div class="font-grid">
-        <button class="font-btn active" data-font="yehuda" onclick="setFont('yehuda')"><span style="font-family:'Yehuda',serif">יהודה</span>Yehuda</button>
-        <button class="font-btn" data-font="gill" onclick="setFont('gill')"><span style="font-family:'Gill Sans',sans-serif">גיל</span>Gill Sans</button>
-        <button class="font-btn" data-font="play" onclick="setFont('play')"><span style="font-family:'Playfair Display',serif">פליי</span>Playfair</button>
-        <button class="font-btn" data-font="modern" onclick="setFont('modern')"><span style="font-family:-apple-system,sans-serif">מודרן</span>Modern</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <header>
   <div class="header-top">
-    <button class="settings-btn" id="settings-btn" onclick="openSettings()" title="הגדרות">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><circle cx="8" cy="6" r="2" fill="var(--surface)"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="16" cy="12" r="2" fill="var(--surface)"/><line x1="3" y1="18" x2="21" y2="18"/><circle cx="10" cy="18" r="2" fill="var(--surface)"/></svg>
-    </button>
+    <button class="settings-btn" id="settings-btn" title="הגדרות">⚙</button>
+    <button class="settings-btn" id="theme-btn" title="החלף תצוגה">🌙</button>
     <h1>תולדות הקולנוע 4</h1>
-    <div class="header-progress">
+    <div class="progress-pill">
       <div class="progress-track"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
       <span class="progress-pct" id="overall-pct">0%</span>
     </div>
-    <div class="countdown-badge">
-      <span class="days-num" id="cd-days">–</span>
-      <span class="days-label">ימים · 26.7</span>
+    <div class="days-badge">
+      <span class="num" id="cd-days">-</span>
+      <span class="lbl">ימים</span>
     </div>
   </div>
   <div class="tab-bar" id="tab-bar"></div>
   <div class="mob-nav" id="mob-nav">
-    <button class="mob-menu-btn" id="mob-menu-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
+    <button class="mob-menu-btn" id="mob-menu-btn">☰</button>
     <div class="mob-nav-label">
-      <div class="mob-nav-title" id="mob-nav-title">סקירה</div>
-      <div class="mob-nav-sub" id="mob-nav-sub"></div>
+      <span class="mn-num" id="mob-nav-num"></span>
+      <span class="mn-title" id="mob-nav-title">סקירה</span>
     </div>
   </div>
 </header>
 
+<!-- Backdrops -->
 <div class="backdrop" id="backdrop"></div>
-<div class="reading-panel" id="reading-panel">
-  <div class="rp-header">
-    <span class="rp-title" id="rp-title"></span>
-    <button class="rp-close" id="rp-close">✕</button>
+<div class="backdrop" id="nav-backdrop" style="z-index:301"></div>
+<div class="backdrop" id="set-backdrop" style="z-index:301"></div>
+
+<!-- Reading panel -->
+<div class="sheet sheet-tall" id="reading-panel">
+  <div class="sheet-hd">
+    <span class="sheet-title" id="rp-title"></span>
+    <button class="sheet-close" id="rp-close">✕</button>
   </div>
-  <div class="rp-body" id="rp-body"></div>
+  <div class="sheet-body" id="rp-body"></div>
 </div>
 
-<div class="backdrop" id="nav-backdrop" style="z-index:301"></div>
+<!-- Nav sheet (mobile) -->
 <div class="nav-sheet" id="nav-sheet">
   <div class="ns-header">בחר נושא</div>
   <div id="ns-list"></div>
 </div>
 
-<div class="wit-toast" id="wit-toast"></div>
+<!-- Settings sheet -->
+<div class="sheet sheet-auto" id="settings-panel">
+  <div class="sheet-hd">
+    <span class="sheet-title">הגדרות</span>
+    <button class="sheet-close" id="set-close">✕</button>
+  </div>
+  <div class="settings-body">
+    <div class="set-section">
+      <div class="set-label">מצב תצוגה</div>
+      <div class="set-row">
+        <button class="set-opt" data-theme="light" onclick="setTheme('light')">☀️ בהיר</button>
+        <button class="set-opt" data-theme="dark" onclick="setTheme('dark')">🌙 כהה</button>
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-label">פונט</div>
+      <div class="set-row">
+        <button class="set-opt" data-font="classic" onclick="setFont('classic')">יהודה קלאסי</button>
+        <button class="set-opt" data-font="modern" onclick="setFont('modern')">מודרני</button>
+        <button class="set-opt" data-font="elegant" onclick="setFont('elegant')">אלגנטי</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scroll-top">↑</button>
 
 <main id="main"></main>
 
@@ -356,28 +329,35 @@
 <script src="summaries.js"></script>
 <script src="notion_summaries.js"></script>
 <script>
-// ── Witty comments per mandatory film ────────────────
-const WITTY = {
-  avventura:    "ל'אוונטורה: אנה נעלמה, הסרט ממשיך, ואתה סיימת לצפות. גדולים.",
-  blowup:       "יצרים: הגדלת. גם תומאס הגדיל. שניכם לא בטוחים מה ראיתם.",
-  dolcevita:    "לה דולצ'ה ויטה: 170 דקות של פליני ✓. החיים אכן מתוקים.",
-  '8half':      "8½ — בדיוק כמה פעמים תפרוש מהמבחן בחלומות הלילה שלך.",
-  fourhundred:  "400 הלקות: קיבלת. ניתן להמשיך לסרט הבא.",
-  breathless:   "À bout de souffle — בדיוק כמו אחרי 90 דקות גודאר.",
-  pierrot:      "פיירו פוצץ את עצמו בסוף. אתה סימנת V. ניצחת.",
-  hiroshima:    "ראית הכל בהירושימה. לא ראית כלום. הסרט מסכים.",
-  cleo:         "קליאו ממתינה לתוצאות. גם אתה. בהצלחה לשניכם.",
-  umbrellas:    "מטריות שרבורג — כולם מתגייסים, רק ג'נב'ייב בוכה. ואתה?",
-  lola_demy:    "לולה: קאבוט חזר. גם סיימת. הכל מסתדר.",
-  ashes:        "אפר ויהלומים: מאצ'ק ירה ומת. האחוז עלה. אחד מהישגים.",
-  iam_cuba:     "אני קובה — שני שוטים אחד מהמרהיבים בקולנוע. ✓ מגיע.",
-  rublev:       "208 דקות. פעמון נולד. אתה סיימת. גיבור של ממש.",
-  come_see:     "בוא וראה — ראית. מה שלא יסור מהראש לפחות עוזר במבחן.",
-  trains:       "רכבות נשמרות היטב. הסימון שלך — פחות.",
-  wr:           "ו.ר.: הנאום על החופש המיני — ספוק. מסומן. קדימה.",
-};
+// ── Settings ──────────────────────────────────────────
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('c4_theme', t);
+  document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
+  updateThemeBtn();
+}
+function updateThemeBtn() {
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀' : '🌙';
+}
+function setFont(f) {
+  document.documentElement.setAttribute('data-font', f);
+  localStorage.setItem('c4_font', f);
+  document.querySelectorAll('[data-font]').forEach(b => b.classList.toggle('active', b.dataset.font===f));
+}
+(function initSettings() {
+  const t = localStorage.getItem('c4_theme')||'light';
+  const f = localStorage.getItem('c4_font')||'classic';
+  document.documentElement.setAttribute('data-theme', t);
+  document.documentElement.setAttribute('data-font', f);
+  setTimeout(() => {
+    document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));
+    document.querySelectorAll('[data-font]').forEach(b=>b.classList.toggle('active',b.dataset.font===f));
+    updateThemeBtn();
+  }, 0);
+})();
 
-// ── State ────────────────────────────────────────────
+// ── State ─────────────────────────────────────────────
 const SK = 'cinema4_v1';
 function load() { try { return JSON.parse(localStorage.getItem(SK))||{}; } catch { return {}; } }
 function save() { localStorage.setItem(SK, JSON.stringify(ST)); }
@@ -388,289 +368,345 @@ function fs(id) {
   return ST.films[id];
 }
 
-// ── Settings ─────────────────────────────────────────
-const PREF_KEY = 'cinema4_prefs';
-function loadPrefs() { try { return JSON.parse(localStorage.getItem(PREF_KEY))||{}; } catch { return {}; } }
-function savePrefs(p) { localStorage.setItem(PREF_KEY, JSON.stringify(p)); }
+// ── Funny comments ────────────────────────────────────
+const JOKES = {
+  avventura: ["אנה נעלמת אחרי 20 דקות. הסרט ממשיך בלעדיה עוד שעתיים. אנטוניוני: 'שאלת לאן היא הלכה? לא רלוונטי.' אתה במבחן: 'לא רלוונטי' זו לא תשובה. 🏝️"],
+  blowup: ["הגדלת. הגדלת שוב. גילית משהו. או לא. אנטוניוני לא יגיד לך. הפרופסור כן יצפה שתגיד. 📸"],
+  la_notte: ["זוג. לילה. שיחות ריקות. לא קורה כלום. אנטוניוני: 'זה הסרט.' אתה במבחן: 'כלום' לא מספיק. כתוב 'ניכור מודרניסטי' וזה אותו דבר. 🌙"],
+  eclisse: ["7 דקות בסוף — ריחוב, אור, שום דמות. אנטוניוני עזב את הסרט לפני שהסרט נגמר. רעיון. ⚡"],
+  dolcevita: ["3 שעות של חיים מתוקים. מרצ'לו עושה הכל ולא מצליח כלום. בדיוק כמו ה-3 שעות שלפני המבחן. 🍷"],
+  '8half': ["פליני לא ידע מה הסרט הבא שלו. אז עשה סרט על זה. ניצח. אתה לא יודע מה לכתוב — נסה גם. 🎬"],
+  love_in_city_fellini: ["פליני ב-15 דקות = פליני ב-3 שעות. הוא לא יכול לעצור. אנחנו לא מצפים שתעצור גם. 💫"],
+  amarcord: ["'אני זוכר' — פליני על ילדות שלא בדיוק הייתה ככה. אבל כך נרשמה בזיכרון. ציין 'מיתוס אוטוביוגרפי' במבחן ויתרשמו. 🌸"],
+  vitelloni: ["5 בטלנים. עיר קטנה. אחד בסוף יוצא. השאר? נשארים. אבל לפחות אתה עכשיו לא בטלן — אתה לומד. 😉"],
+  cabiria: ["נאיבית, מאמינה, מתאכזבת, מאמינה שוב. קביריה מסיימת בחיוך. גם אתה תסיים את המבחן בחיוך. כנראה. 🌟"],
+  divorce_italian: ["גירושין לא אפשריים באיטליה ב-1961. הפתרון? לארגן שהאשה תיהרג. ואז להתחתן עם הגרמנייה. 'הומדיה'. 🍕"],
+  we_loved: ["כך כל כך אהבנו — שלושה חברים ואחת שהם כולם אוהבים. בסוף הם לא יודעים מה קרה. כמו אחרי המבחן. ✓"],
+  dr_antonio: ["אניטה אקברג על פוסטר ענק. ד'ר אנטוניו נלחם בה. פליני לועג למוסר. הפוסטר מנצח. 👀"],
+  intervista: ["פליני מראיין את אניטה אקברג. שניהם כבר זקנים. הם צופים יחד ב-La Dolce Vita. שניהם בוכים. אתה גם. 🎥"],
+  stardust: ["וודי אלן עשה 8½ שלו. פליני ראה וחייך בנדיבות. הסרט של אלן טוב. של פליני טוב יותר. הפרש גדול. 🌟"],
+  all_that_jazz: ["בוב פוסי עשה סרט על מותו שלו. מת 8 שנים אחרי. הסרט: מדויק. מבחינת חיזוי — 8/10. 🎭"],
+  fourhundred: ["400 הלקות. אנטואן דואנל. 14 שנים. מוסד. בריחה. ים. המצלמה לא יודעת לאן. גם אנטואן לא. גם אתה לא אחרי הסרט. 🏃"],
+  jules_jim: ["שניים אוהבים אחת. שלושתם יחד. זה לא עובד. קתרין נוהגת לים. ג'ים איתה. ז'ול נשאר. 💔"],
+  breathless: ["גודאר לא ידע לערוך, אז המציא את הז'אמפ קאט. אתה לא יודע לכתוב תשובה — תמציא מונח. 💨"],
+  vivre_sa_vie: ["12 תמונות. 12 דרכים לקרב ולדחות בו זמנית. גודאר + ברכט + נאנה. הנוסחה: תכתוב 'אפקט הניכור' ותקבל נקודות. 📺"],
+  bande_a_part: ["הריקוד. שלושה. מסעדה. 3 דקות. גודאר פשוט עצר את הסרט לריקוד. הלוואי שהמבחן היה כך. 💃"],
+  pierrot: ["פיירו לא יודע מי הוא. גודאר לא יודע מה הסרט. הצופה לא יודע מה קרה. 'ניכור'. 'כחול'. 'פיצוץ'. ״כותבים במבחן.״ 💙"],
+  weekend_godard: ["10 דקות. שוט אחד. פקק. גודאר שואל: מה זו ציוויליזציה? פקק. גם בדרך למבחן. 🚗"],
+  night_fog: ["רנה. 1955. 32 דקות. שחור-לבן + צבע. הצנזורה ניסתה לעצור. לא הצליחה. הסרטים הנכוחים ביותר — לא עוצרים. 🌫️"],
+  hiroshima: ["'לא ראית כלום בהירושימה.' 'ראיתי הכל.' רנה ודיראס ויכחו על הזיכרון. שניהם צדקו. שניהם טעו. ✓🌸"],
+  marienbad: ["מה קרה בשנה שעברה? כן. לא. אולי. האם זה קרה בכלל? כן. לא. אולי. זו שאלת הבחינה. כל תשובה נכונה. 🏛️"],
+  lola_demy: ["לולה. שמלה לבנה. נמל. מוזיקה. ז'אק דמי המציא עיר שלא קיימת אבל מרגישה אמיתית יותר מהמציאות. ❤️"],
+  umbrellas: ["כל הדיאלוג — שיר. הפרידה — שיר. הבכי — שיר. האם לא בכית? צפה שוב. ☂️"],
+  rochefort: ["מוזיקלי! שמח! צבעוני! ג'ין קלי! כולם פוגשים את אהבת חייהם — אבל תמיד רגע אחד אחרי שהלכו. 🎵"],
+  lalaland: ["La La Land גנב מדמי, שם בלוס אנג'לס, קיבל 6 אוסקרים. דמי לא קיבל. גודאר לא קיבל. פליני קיבל כבוד. 🌟"],
+  jeanne_garcon: ["ז'אן-מארי שר על AIDS. 1998. הגיבור מת. הסרט ממשיך. ורדא ידעה שדרך השיר אפשר לומר מה שאי אפשר לומר אחרת. 🎭"],
+  diary_pregnant: ["ורדא 1958. מצלמת את הריונה שלה. 8 דקות. לפני כולם. לפני הסינמה וריטה, לפני הגל החדש, לפני הכל. 📔"],
+  cleo: ["90 דקות. זמן אמת. פריז. ממתינה לתוצאות. ורדא מלווה אותה בלי לשפוט. אתה מלווה בלי לנשום. ⏰"],
+  le_bonheur: ["צבעים כה יפים. משפחה כה מאושרת. אשה אחת מתה. גבר אחר מאושר. ורדא לא מתנצלת. 🌻"],
+  cranes: ["מרק הולך למלחמה. ורוניקה בוגדת. מרק מת. עגורים עפים. סרט סובייטי שגרם לאנשים לבכות בכל שפה. 🕊️"],
+  ashes: ["מאצ'ק. 1948. ורשה. יהלום בתוך אפר. ווידה לא נותן לנו להרגיש טוב בקלות. 💎"],
+  iam_cuba: ["שוט הבריכה: קלטוזוב הוריד את המצלמה מהגג למים בשוט אחד. 1964. לא ידעו איך עשו את זה עד 2000. 🎬"],
+  ivans_childhood: ["טרקובסקי הראשון. 12 שנים. חלומות לבנים. מלחמה שחורה. כבר ב-1962 ידע הכל. הבאים לאחר מכן רק המשיכו. ✨"],
+  rublev: ["208 דקות. שחור-לבן. רוסיה 1400. ובסוף 8 דקות צבע של ציורי אייקון. טרקובסקי: 'סבלת? הנה פרס.' 🔔"],
+  tarkovsky_prayer: ["תפילה לטרקובסקי. 1989. שנה אחרי מותו. הסרטים שלו היו תפילות. הסרט הזה ידע זאת ואמר זאת בקול. ❤️"],
+  solaris: ["גוף שת מייצר את מה שאתה הכי מפחד לפגוש. טרקובסקי לא התנצל על 40 הדקות הראשונות. קוברק לא התנצל על 2001. שניהם אינסוף. 🌊"],
+  nostalghia: ["אגריפי חוצה בריכה עם נר. 9 דקות. הנר כבה פעמיים. 'עוד פעם' אמר טרקובסקי. זה הסרט כולו בשוט אחד. 🕯️"],
+  ascent: ["שני פרטיזנים בשלג. אחד מוסר, אחד נדחף. שפיטקו אמרה שזה סרט על אהבה. לא על מלחמה. צדקה. ❄️"],
+  come_see: ["הפרופסור הפעיל את הסרט. 2 שעות. כשנגמר — 40 סטודנטים שתקו 3 דקות. לא היה צורך לשאול שאלות. 👁️"],
+  shadows_ancestors: ["פרדז'נוב 1965. כל פריים — יצירת אמנות. המשטר הסובייטי שלח אותו לכלא. כנראה לא אהבו יופי. 🎨"],
+  pomegranates: ["10 דקות שכנראה הן הקולנוע היפה ביותר שנוצר. לא מספר עלילה. לא צריך. אתה פשוט מרגיש. 🍎"],
+  ashes_wajda2: ["מאצ'ק שוב. אבל עכשיו הוא מבוגר יותר ומבין פחות. ווידה: 'כך פולין.' 💨"],
+  man_marble: ["ווידה חוקר את ווידה. סרט על מה שמחקו, מצולם על ידי מי שמצלם את מי שחקר מה מחקו. המשטר ניסה למחוק גם את זה. 🏛️"],
+  two_men: ["פולנסקי. 19 שנים. שני אנשים. ארון. ים. 8 דקות. ב-19 כבר ידע יותר ממה שרוב הבמאים יודעים לעולם. 🚪"],
+  knife_water: ["שלוש דמויות. סירה. אגם. שעות של מתח. בסוף — לא קורה כלום. פולנסקי: 'ה'כלום' הוא הכל.' 🔪"],
+  blind_chance: ["אותו איש, שלוש פעמיות. הכל תלוי אם הספיק לרכבת. קישלובסקי: 'כך החיים.' אתה: 'כך גם ציוני המבחן.' 🎲"],
+  short_killing: ["שפוט: האם עונש מוות מוצדק? קישלובסקי לא שואל ישירות. הוא מציג. ואתה פתאום לא יודע מה לענות. 😶"],
+  loves_blonde: ["פורמן. פראג 1965. נגן חצוצרה מחפש בלונדינית. מוצא. מאבד. זזה הלאה. פורמן ידע שצ'כיה לא תהיה חופשית. עזב. 💛"],
+  firemans_ball: ["נשף של כבאים שמשתבש בכל כיוון אפשרי. פורמן: 'זה על הקומוניזם.' המשטר: 'אסור.' פורמן: 'להתראות.' 🔥"],
+  trains: ["הנשיקה. מנצל. 1966. אוסקר. תזכור: הנשיקה. אם יצאת ולא זכרת את הנשיקה — חזור. 🚂"],
+  daisies: ["חיטילובה שברה הכל — ממש הכל. שולחן, מוסכמות, נרטיב, קולנוע. המשטר הפסיק אותה. הסרט שרד. 🌸"],
+  the_joke: ["לודוויק כתב בדיחה ב-1948. זה הרס את חייו. קונדרה כתב ספר על זה. מנצל עשה סרט. 1969 — עצרו גם את הסרט. 😐"],
+  wr: ["ווילהלם רייך + יוגוסלביה + מרקסיזם + פסיכואנליזה + ריקוד = ו.ר. תעלומות האורגניזם. לא בדיחה. 🇾🇺"],
+};
 
-function applyTheme(t) {
-  document.documentElement.dataset.theme = t;
-  const tog = document.getElementById('theme-toggle');
-  const lbl = document.getElementById('theme-label');
-  if (tog) tog.classList.toggle('on', t==='dark');
-  if (lbl) lbl.textContent = t==='dark' ? 'כהה' : 'בהיר';
+function showJoke(filmId) {
+  const list = JOKES[filmId];
+  if (!list) return;
+  const msg = list[Math.floor(Math.random()*list.length)];
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3800);
 }
-function toggleTheme() {
-  const cur = document.documentElement.dataset.theme;
-  const next = cur==='dark'?'light':'dark';
-  applyTheme(next);
-  const p=loadPrefs(); p.theme=next; savePrefs(p);
+
+function confetti(el) {
+  const r = el.getBoundingClientRect();
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const colors = ['#F2C94C','#27AE60','#2D9CDB','#EB5757','#BB6BD9','#F2994A'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div'); p.className='confetti-p';
+    const size=Math.random()*6+4;
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${colors[i%colors.length]};--cx:${(Math.random()-0.5)*130}px;--cy:${-Math.random()*100-20}px;--cr:${Math.random()*360}deg;animation-delay:${Math.random()*0.15}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1200);
+  }
 }
-function setFont(f) {
-  document.documentElement.dataset.font = f;
-  document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===f));
-  const p=loadPrefs(); p.font=f; savePrefs(p);
-}
 
-function openSettings() { document.getElementById('settings-panel').classList.add('open'); }
-function closeSettings() { document.getElementById('settings-panel').classList.remove('open'); }
-document.getElementById('settings-backdrop').onclick = closeSettings;
+// ── Countdown ─────────────────────────────────────────
+document.getElementById('cd-days').textContent =
+  Math.max(0, Math.ceil((EXAM_DATE - new Date()) / 86400000));
 
-// Init prefs
-(()=>{
-  const p=loadPrefs();
-  if (p.theme) applyTheme(p.theme); else applyTheme('light');
-  if (p.font) setFont(p.font);
-})();
-
-// ── Countdown ────────────────────────────────────────
-const DAYS_LEFT = Math.max(0, Math.ceil((EXAM_DATE-new Date())/86400000));
-document.getElementById('cd-days').textContent = DAYS_LEFT;
-
-// ── Progress ─────────────────────────────────────────
-const mandatory = l => l.films.filter(f=>f.mandatory);
-const watchedCount = l => mandatory(l).filter(f=>fs(f.id).watched).length;
-const pctOf = (w,t) => t?Math.round(w/t*100):0;
+// ── Progress ──────────────────────────────────────────
+const mandatory = l => l.films.filter(f => f.mandatory);
+const watchedCount = l => mandatory(l).filter(f => fs(f.id).watched).length;
+const pctOf = (w,t) => t ? Math.round(w/t*100) : 0;
 function overallPct() {
-  const all=LESSONS.flatMap(mandatory);
-  return pctOf(all.filter(f=>fs(f.id).watched).length, all.length);
+  const all = LESSONS.flatMap(mandatory);
+  return pctOf(all.filter(f => fs(f.id).watched).length, all.length);
 }
 function refreshProgress() {
-  const p=overallPct();
-  document.getElementById('overall-bar').style.width=p+'%';
-  document.getElementById('overall-pct').textContent=p+'%';
-  LESSONS.forEach(l=>{
-    const w=watchedCount(l),t=mandatory(l).length;
-    const frac=document.querySelector(`.tab-frac[data-l="${l.id}"]`);
-    if(frac) frac.textContent=t?` ${w}/${t}`:'';
-    const card=document.querySelector(`.ov-card[data-l="${l.id}"]`);
-    if(card){
+  const p = overallPct();
+  document.getElementById('overall-bar').style.width = p+'%';
+  document.getElementById('overall-pct').textContent = p+'%';
+  LESSONS.forEach(l => {
+    const w=watchedCount(l), t=mandatory(l).length;
+    const frac = document.querySelector(`.tab-frac[data-l="${l.id}"]`);
+    if (frac) frac.textContent = t ? `${w}/${t}` : '';
+    const card = document.querySelector(`.ov-card[data-l="${l.id}"]`);
+    if (card) {
+      const p2=pctOf(w,t), fill=card.querySelector('.ov-fill'), fracEl=card.querySelector('.ov-frac');
+      if (fill){fill.style.width=p2+'%';fill.className='ov-fill'+(p2===100?' full':'');}
+      if (fracEl){fracEl.textContent=t?`${w}/${t}`:'';fracEl.className='ov-frac'+(p2===100?' full':'');}
+      card.querySelectorAll('.ov-film-m').forEach(el=>{const id=el.dataset.fid;if(id)el.className='ov-film-m'+(fs(id).watched?' ov-film-done':'');});
+    }
+    const row=document.querySelector(`.ov-row[data-l="${l.id}"]`);
+    if(row){
       const p2=pctOf(w,t);
-      const fill=card.querySelector('.ov-fill'), fracEl=card.querySelector('.ov-frac');
-      if(fill){fill.style.width=p2+'%';fill.className='ov-fill'+(p2===100?' full':'');}
-      if(fracEl){fracEl.textContent=`${w} / ${t}`;fracEl.className='ov-frac'+(p2===100?' full':'');}
-      card.querySelectorAll('.ov-film-tag').forEach(el=>{
-        const id=el.dataset.fid; if(id) el.className='ov-film-tag'+(fs(id).watched?' ov-film-done':'');
-      });
+      const fill=row.querySelector('.ov-row-bar-fill'), fracEl=row.querySelector('.ov-row-frac');
+      if(fill){fill.style.height=p2+'%'; fill.className='ov-row-bar-fill'+(p2===100?' full':'');}
+      if(fracEl){fracEl.textContent=t?`${w}/${t}`:''; fracEl.className='ov-row-frac'+(p2===100?' full':'');}
+      row.classList.toggle('done', p2===100);
     }
   });
 }
 
-// ── Wit toast ────────────────────────────────────────
-function showWit(filmId) {
-  const msg = WITTY[filmId];
-  if (!msg) return;
-  const t=document.getElementById('wit-toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3800);
-}
-
-// ── Markdown renderer ────────────────────────────────
+// ── Markdown renderer ─────────────────────────────────
 function renderMd(text, container) {
   let ul=null;
-  text.split('\n').forEach(line=>{
-    if(!line.trim()){ul=null;return;}
-    if(line.startsWith('### ')){
-      const el=document.createElement('div');el.className='rp-heading';el.textContent=line.slice(4);container.appendChild(el);ul=null;
-    } else if(/^\*\*[^*]+\*\*$/.test(line)){
-      const el=document.createElement('div');el.className='rp-heading';el.textContent=line.slice(2,-2);container.appendChild(el);ul=null;
-    } else if(line.startsWith('- ')){
-      if(!ul){ul=document.createElement('ul');ul.className='rp-list';container.appendChild(ul);}
-      const li=document.createElement('li');li.className='rp-li';li.innerHTML=line.slice(2).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');ul.appendChild(li);
-    } else {
-      const el=document.createElement('div');el.className='rp-para';el.innerHTML=line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');container.appendChild(el);ul=null;
-    }
+  text.split('\n').forEach(line => {
+    if (!line.trim()){ul=null;return;}
+    if (line.startsWith('### ')){const el=document.createElement('div');el.className='rp-heading';el.textContent=line.slice(4);container.appendChild(el);ul=null;}
+    else if (/^\*\*[^*]+\*\*$/.test(line)){const el=document.createElement('div');el.className='rp-heading';el.textContent=line.slice(2,-2);container.appendChild(el);ul=null;}
+    else if (line.startsWith('- ')){if(!ul){ul=document.createElement('ul');ul.className='rp-list';container.appendChild(ul);}const li=document.createElement('li');li.className='rp-li';li.innerHTML=line.slice(2).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');ul.appendChild(li);}
+    else{const el=document.createElement('div');el.className='rp-para';el.innerHTML=line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');container.appendChild(el);ul=null;}
   });
 }
 
-// ── Reading Panel ────────────────────────────────────
-const rpanel=document.getElementById('reading-panel'),backdrop=document.getElementById('backdrop');
-const rpTitle=document.getElementById('rp-title'),rpBody=document.getElementById('rp-body');
-function openRP(title,buildFn){rpTitle.textContent=title;rpBody.innerHTML='';buildFn(rpBody);rpanel.classList.add('open');backdrop.classList.add('open');}
-function closeRP(){rpanel.classList.remove('open');backdrop.classList.remove('open');}
-document.getElementById('rp-close').onclick=closeRP;
-backdrop.onclick=closeRP;
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeRP();closeNavSheet();closeSettings();}});
+// ── Sheets ────────────────────────────────────────────
+const backdrop=document.getElementById('backdrop');
+function openSheet(id) { document.getElementById(id).classList.add('open'); backdrop.classList.add('open'); }
+function closeSheet(id) { document.getElementById(id).classList.remove('open'); backdrop.classList.remove('open'); }
+backdrop.onclick = () => { closeSheet('reading-panel'); closeSheet('settings-panel'); };
+document.getElementById('rp-close').onclick = () => closeSheet('reading-panel');
+document.getElementById('set-close').onclick = () => closeSheet('settings-panel');
+document.getElementById('settings-btn').onclick = () => openSheet('settings-panel');
+document.getElementById('theme-btn').onclick = () => {
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+};
 
-// ── הגר mapping ──────────────────────────────────────
-const HAGAR_MAP={1:['1'],2:['2','3'],3:['4','5'],4:['6','7'],5:[],6:['9'],7:['10','11']};
-function getHagarParas(lid){
-  return (HAGAR_MAP[lid]||[]).flatMap(k=>(SUMMARIES[k]||[]).slice(1));
+// ── Scroll to top ─────────────────────────────────────
+const scrollTopBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 280);
+}, { passive: true });
+scrollTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+// ── Swipe navigation (mobile) ────────────────────────
+let _swipeX = 0;
+document.getElementById('main').addEventListener('touchstart', e => {
+  _swipeX = e.touches[0].clientX;
+}, { passive: true });
+document.getElementById('main').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - _swipeX;
+  if (Math.abs(dx) < 60) return;
+  const tabs = ['overview', ...LESSONS.map(l => `l${l.id}`)];
+  const cur = tabs.indexOf(active);
+  if (dx < 0 && cur < tabs.length - 1) setTab(tabs[cur + 1]);
+  if (dx > 0 && cur > 0) setTab(tabs[cur - 1]);
+}, { passive: true });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){closeSheet('reading-panel');closeSheet('settings-panel');closeNavSheet();} });
+
+function openRP(title, buildFn) {
+  document.getElementById('rp-title').textContent = title;
+  const body = document.getElementById('rp-body'); body.innerHTML = '';
+  buildFn(body); openSheet('reading-panel');
 }
 
-// ── Tabs ─────────────────────────────────────────────
+// ── Nav sheet ─────────────────────────────────────────
+const navSheet=document.getElementById('nav-sheet'), navBd=document.getElementById('nav-backdrop');
+function openNavSheet(){navSheet.classList.add('open');navBd.classList.add('open');}
+function closeNavSheet(){navSheet.classList.remove('open');navBd.classList.remove('open');}
+document.getElementById('mob-menu-btn').onclick = openNavSheet;
+navBd.onclick = closeNavSheet;
+
+// ── Settings panel ────────────────────────────────────
+const setBd=document.getElementById('set-backdrop');
+setBd.onclick = () => closeSheet('settings-panel');
+
+// ── Tabs ──────────────────────────────────────────────
 let active='overview';
-function setTab(id){
+function setTab(id) {
   active=id;
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===id));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.p===id));
+  const numEl=document.getElementById('mob-nav-num'), titleEl=document.getElementById('mob-nav-title');
+  if(id==='overview'){numEl.textContent='';titleEl.textContent='סקירה';}
+  else{const l=LESSONS.find(l=>String(l.id)===id.slice(1));if(l){numEl.textContent='נושא '+l.id;titleEl.textContent=l.title;}}
   document.querySelectorAll('.ns-item').forEach(it=>it.classList.toggle('active',it.dataset.t===id));
-  const l=LESSONS.find(l=>`l${l.id}`===id);
-  document.getElementById('mob-nav-title').textContent = id==='overview'?'סקירה כללית':(l?l.title:'');
-  document.getElementById('mob-nav-sub').textContent = l?(l.semester?`נושא ${l.id}`:`נושא ${l.id}`):'';
   closeNavSheet();
 }
 
-function buildTabs(){
+function buildNavSheet() {
+  const list=document.getElementById('ns-list'); list.innerHTML='';
+  const mkItem=(t,num,title,frac,cls='')=>{
+    const div=document.createElement('div');
+    div.className='ns-item'+(active===t?' active':'')+(cls?' '+cls:''); div.dataset.t=t;
+    div.innerHTML=`<span class="ns-item-num">${num}</span><span class="ns-item-title">${title}</span>${frac?`<span class="ns-item-frac">${frac}</span>`:''}`;
+    div.onclick=()=>setTab(t); list.appendChild(div);
+  };
+  mkItem('overview','','סקירה כללית','');
+  LESSONS.filter(l=>l.semester==='א').forEach(l=>mkItem(`l${l.id}`,l.id,l.title,'','sem-a'));
+  LESSONS.filter(l=>!l.semester).forEach(l=>{
+    const w=watchedCount(l),t=mandatory(l).length;
+    const pct=pctOf(w,t); mkItem(`l${l.id}`,l.id,l.title,t?`${w}/${t} · ${pct}%`:'');
+  });
+}
+
+function buildTabs() {
   const bar=document.getElementById('tab-bar');
-  const mk=(t,l,e='',cls='')=>{
+  const mkBtn=(t,num,title,frac='',cls='')=>{
     const b=document.createElement('button');
     b.className='tab-btn'+(t==='overview'?' active':'')+(cls?' '+cls:'');
-    b.dataset.t=t; b.innerHTML=l+e; b.onclick=()=>setTab(t); bar.appendChild(b);
+    b.dataset.t=t;
+    b.innerHTML=`<span class="tab-num">${num}</span><span class="tab-title">${title}</span>${frac?`<br><span class="tab-frac" data-l="${num}">${frac}</span>`:''}`;
+    b.onclick=()=>setTab(t); bar.appendChild(b);
   };
   const mkD=()=>{const d=document.createElement('div');d.className='tab-divider';bar.appendChild(d);};
   const mkL=txt=>{const s=document.createElement('span');s.className='tab-sem-label';s.textContent=txt;bar.appendChild(s);};
-  mk('overview','סקירה');
-  mkD();mkL('סמ׳ א');
-  LESSONS.filter(l=>l.semester==='א').forEach(l=>mk(`l${l.id}`,l.id,'','sem-a'));
-  mkD();mkL('סמ׳ ב');
+  mkBtn('overview','','סקירה');
+  mkD(); mkL('סמ׳ א');
+  LESSONS.filter(l=>l.semester==='א').forEach(l=>mkBtn(`l${l.id}`,l.id,l.title,'','sem-a'));
+  mkD(); mkL('סמ׳ ב');
   LESSONS.filter(l=>!l.semester).forEach(l=>{
     const w=watchedCount(l),t=mandatory(l).length;
-    mk(`l${l.id}`,`${l.id}`,t?`<span class="tab-frac" data-l="${l.id}"> ${w}/${t}</span>`:'');
+    mkBtn(`l${l.id}`,l.id,l.title,t?`${w}/${t}`:'');
   });
 }
 
-// ── Nav sheet ────────────────────────────────────────
-const navSheet=document.getElementById('nav-sheet'),navBackdrop=document.getElementById('nav-backdrop');
-function openNavSheet(){navSheet.classList.add('open');navBackdrop.classList.add('open');}
-function closeNavSheet(){navSheet.classList.remove('open');navBackdrop.classList.remove('open');}
-document.getElementById('mob-menu-btn').onclick=openNavSheet;
-navBackdrop.onclick=closeNavSheet;
+// ── Overview ──────────────────────────────────────────
+function buildOverview() {
+  const panel=document.createElement('div'); panel.className='panel active'; panel.dataset.p='overview';
+  const list=document.createElement('div'); list.className='ov-list';
 
-function buildNavSheet(){
-  const list=document.getElementById('ns-list');list.innerHTML='';
-  const mk=(t,title,num,cls='')=>{
-    const div=document.createElement('div');
-    div.className='ns-item'+(active===t?' active':'')+(cls?' '+cls:'');div.dataset.t=t;
-    div.innerHTML=`<div><div class="ns-item-title">${title}</div>${num?`<div class="ns-item-num">${num}</div>`:''}</div>`;
-    div.onclick=()=>setTab(t);list.appendChild(div);
-  };
-  mk('overview','סקירה כללית','');
-  LESSONS.filter(l=>l.semester==='א').forEach(l=>mk(`l${l.id}`,l.title,`נושא ${l.id}`,'sem-a'));
-  LESSONS.filter(l=>!l.semester).forEach(l=>{
-    const w=watchedCount(l),t=mandatory(l).length;
-    const div=document.createElement('div');
-    div.className='ns-item'+(active===`l${l.id}`?' active':'');div.dataset.t=`l${l.id}`;
-    div.innerHTML=`<div><div class="ns-item-title">${l.title}</div><div class="ns-item-num">נושא ${l.id}</div></div>${t?`<span class="ns-item-frac">${w}/${t}</span>`:''}`;
-    div.onclick=()=>setTab(`l${l.id}`);list.appendChild(div);
-  });
-}
-
-// ── Overview ─────────────────────────────────────────
-function buildOverview(){
-  const panel=document.createElement('div');panel.className='panel active';panel.dataset.p='overview';
-  const allM=LESSONS.flatMap(mandatory).length;
-  panel.innerHTML=`<div class="ov-header"><h2>הכנה למבחן</h2><p>${allM} נושאי חובה · מבחן ב-26.7 · ${DAYS_LEFT} ימים</p></div>`;
-  const grid=document.createElement('div');grid.className='ov-grid';
-  const decade={1:'1960',2:'1959-63',3:'1959-65',4:'1959-64',5:'1958-64',6:'1972-85',7:'1966-71'};
-
-  // Semester A cards
   LESSONS.filter(l=>l.semester==='א').forEach(l=>{
-    const card=document.createElement('div');card.className='ov-card sem-a';card.dataset.l=l.id;
-    // Get unique directors
-    const dirs=[...new Set(l.films.map(f=>f.director).filter(Boolean))].slice(0,6).join(' · ');
-    card.innerHTML=`<div class="ov-num">נושא ${l.id} · סמ׳ א</div><div class="ov-title">${l.title}</div><div class="ov-directors">${dirs}</div>`;
-    card.onclick=()=>setTab(`l${l.id}`);grid.appendChild(card);
+    const row=document.createElement('div'); row.className='ov-row sem-a'; row.dataset.l=l.id;
+    row.innerHTML=`<div class="ov-row-num">א${l.id.replace('א','')}</div><div class="ov-row-title">${l.title}</div><div class="ov-row-dirs">${l.subtitle?l.subtitle.split('·')[0].trim():''}</div>`;
+    row.onclick=()=>setTab(`l${l.id}`); list.appendChild(row);
   });
 
-  // Semester B cards
   LESSONS.filter(l=>!l.semester).forEach(l=>{
     const w=watchedCount(l),t=mandatory(l).length,p=pctOf(w,t);
-    const card=document.createElement('div');card.className='ov-card';card.dataset.l=l.id;
-    const fh=mandatory(l).map(f=>`<span class="ov-film-tag${fs(f.id).watched?' ov-film-done':''}" data-fid="${f.id}">${f.title.split('/')[0].trim()}</span>`).join('');
-    card.innerHTML=`<div class="ov-num">נושא ${l.id} · ${decade[l.id]||''}</div><div class="ov-title">${l.title}</div><div class="ov-prog-row"><div class="ov-track"><div class="ov-fill${p===100?' full':''}" style="width:${p}%"></div></div><span class="ov-frac${p===100?' full':''}">${w} / ${t}</span></div><div class="ov-films">${fh}</div>`;
-    card.onclick=()=>setTab(`l${l.id}`);grid.appendChild(card);
+    const dirs=[...new Set(mandatory(l).map(f=>f.director).filter(Boolean))].join(' · ');
+    const row=document.createElement('div'); row.className='ov-row'; row.dataset.l=l.id;
+    if(p===100) row.classList.add('done');
+    row.innerHTML=`<div class="ov-row-bar"><div class="ov-row-bar-fill${p===100?' full':''}" style="height:${p}%"></div></div><div class="ov-row-num">${l.id}</div><div class="ov-row-title">${l.title}</div><div class="ov-row-dirs">${dirs}</div><div class="ov-row-frac${p===100?' full':''}${!t?' hidden':''}">${t?`${w}/${t}`:''}</div>`;
+    row.onclick=()=>setTab(`l${l.id}`); list.appendChild(row);
   });
 
-  panel.appendChild(grid);return panel;
+  panel.appendChild(list); return panel;
 }
 
-// ── Lesson panel ─────────────────────────────────────
-function buildLesson(l){
-  const panel=document.createElement('div');panel.className='panel';panel.dataset.p=`l${l.id}`;
+// ── Lesson panel ──────────────────────────────────────
+const HAGAR_MAP={1:['1'],2:['2','3'],3:['4','5'],4:['6','7'],5:[],6:['9'],7:['10','11']};
+function getHagarParas(lid){return(HAGAR_MAP[lid]||[]).flatMap(k=>(SUMMARIES[k]||[]).slice(1));}
+
+function buildLesson(l) {
+  const panel=document.createElement('div'); panel.className='panel'; panel.dataset.p=`l${l.id}`;
   const w=watchedCount(l),t=mandatory(l).length;
-  const isA=l.semester==='א';
-
-  const hd=document.createElement('div');hd.className='lesson-hd';
-  hd.innerHTML=`<div class="lesson-hd-top"><h2>${l.title}</h2><span class="lesson-num-badge">נושא ${l.id}</span></div>${l.subtitle?`<div class="lesson-subtitle">${l.subtitle}</div>`:''}${t?`<div class="lesson-frac"><b>${w}</b> / ${t} נצפו</div>`:''}`;
+  const hd=document.createElement('div'); hd.className='lesson-hd';
+  hd.innerHTML=`<div class="l-num">נושא ${l.id}${l.semester?' · סמ׳ א':''}</div><h2>${l.title}</h2>${t?`<div class="l-frac"><b>${w}</b> / ${t} נצפו</div>`:''}`;
   panel.appendChild(hd);
+  if(l.subtitle){const s=document.createElement('div');s.className='lesson-subtitle';s.textContent=l.subtitle;panel.appendChild(s);}
 
-  // Films: mandatory first, then clips
-  const mandFilms=l.films.filter(f=>f.mandatory);
+  const mandatoryFilms=l.films.filter(f=>f.mandatory);
   const clipFilms=l.films.filter(f=>!f.mandatory);
 
-  function buildSection(title,films,noLabel=false){
-    if(!films.length)return;
-    const box=document.createElement('div');box.className='sec-box';
-    box.innerHTML=`<div class="sec-box-hd"><h3>${title}</h3></div>`;
-    const body=document.createElement('div');body.className='sec-box-body';
-    const grid=document.createElement('div');grid.className='film-grid';
-    films.forEach(film=>grid.appendChild(buildCard(film,panel,l,isA,noLabel)));
-    body.appendChild(grid);box.appendChild(body);panel.appendChild(box);
+  function buildSection(title, films) {
+    if(!films.length) return;
+    const box=document.createElement('div'); box.className='sec-box';
+    const hd=document.createElement('div'); hd.className='sec-box-hd';
+    const h3=document.createElement('h3'); h3.textContent=title; hd.appendChild(h3);
+    if(films[0]?.mandatory && films.length>1){
+      const markBtn=document.createElement('button'); markBtn.className='mark-all-btn';
+      const updateBtn=()=>{ markBtn.textContent=films.every(f=>fs(f.id).watched)?'בטל הכל ✕':'סמן הכל ✓'; };
+      updateBtn();
+      markBtn.onclick=()=>{
+        const allWatched=films.every(f=>fs(f.id).watched);
+        films.forEach(f=>{fs(f.id).watched=!allWatched;}); save();
+        grid.innerHTML=''; films.forEach(film=>buildFilmCard(film,grid,panel,l));
+        refreshProgress(); updateBtn();
+      };
+      hd.appendChild(markBtn);
+    }
+    box.appendChild(hd);
+    const body=document.createElement('div'); body.className='sec-box-body';
+    const grid=document.createElement('div'); grid.className='film-grid';
+    films.forEach(film=>buildFilmCard(film,grid,panel,l));
+    body.appendChild(grid); box.appendChild(body); panel.appendChild(box);
   }
 
-  if(isA){
-    // Semester A: all in one section, no type badge, no mandatory flag display
-    buildSection('סרטים וקטעים',l.films,true);
-  } else {
-    buildSection('סרטי חובה',mandFilms);
-    buildSection('קטעים שהוקרנו בכיתה',clipFilms);
-  }
-
+  buildSection('סרטי חובה', mandatoryFilms);
+  buildSection('קטעים שהוקרנו בכיתה', clipFilms);
   return panel;
 }
 
-// ── Film card ────────────────────────────────────────
-function buildCard(film,panel,l,isA,noLabel){
-  const s=fs(film.id);
-  const card=document.createElement('div');
-  card.className='fc'+(s.watched?' watched':'')+(isA?' sem-a-card':'');
+// ── Film card ──────────────────────────────────────────
+function buildFilmCard(film, grid, panel, l) {
+  const s=fs(film.id), card=document.createElement('div');
+  card.className='fc'+(s.watched?' watched':'');
   const meta=[film.director,film.year,film.duration?film.duration+"′":null].filter(Boolean).join(' · ');
-
-  const top=document.createElement('div');top.className='fc-top';
-  const check=document.createElement('button');check.className='fc-check';check.textContent=s.watched?'✓':'';
-  const titleEl=document.createElement('div');titleEl.className='fc-title';titleEl.textContent=film.title;
+  const top=document.createElement('div'); top.className='fc-top';
+  const check=document.createElement('button'); check.className='fc-check'; check.textContent=s.watched?'✓':'';
+  const titleEl=document.createElement('div'); titleEl.className='fc-title'; titleEl.textContent=film.title;
   if(s.watched){titleEl.style.textDecoration='line-through';titleEl.style.color='var(--muted)';}
-
   check.onclick=()=>{
-    const s2=fs(film.id);s2.watched=!s2.watched;save();
-    card.classList.toggle('watched',s2.watched);
-    check.textContent=s2.watched?'✓':'';
-    titleEl.style.textDecoration=s2.watched?'line-through':'';titleEl.style.color=s2.watched?'var(--muted)':'';
-    if(s2.watched&&film.mandatory) showWit(film.id);
-    const frac=panel.querySelector('.lesson-frac');
+    const s2=fs(film.id); s2.watched=!s2.watched; save();
+    card.classList.toggle('watched',s2.watched); check.textContent=s2.watched?'✓':'';
+    titleEl.style.textDecoration=s2.watched?'line-through':''; titleEl.style.color=s2.watched?'var(--muted)':'';
+    const frac=panel.querySelector('.l-frac');
     if(frac){const ww=watchedCount(l),tt=mandatory(l).length;frac.innerHTML=`<b>${ww}</b> / ${tt} נצפו`;}
     refreshProgress();
+    if(s2.watched) { showJoke(film.id); confetti(check); }
   };
-
-  if(!noLabel){
-    const typeEl=document.createElement('span');
-    typeEl.className='fc-type '+(film.mandatory?'mandatory':'clip');
-    typeEl.textContent=film.mandatory?'חובה':'(קטע)';
-    top.appendChild(check);top.appendChild(typeEl);
-  } else {
-    top.appendChild(check);
-  }
-
-  card.appendChild(top);card.appendChild(titleEl);
+  const typeEl=document.createElement('span'); typeEl.className='fc-type '+(film.mandatory?'mandatory':'clip');
+  typeEl.textContent=film.mandatory?'חובה':'(קטע)';
+  top.appendChild(check); top.appendChild(typeEl); card.appendChild(top); card.appendChild(titleEl);
   if(meta){const m=document.createElement('div');m.className='fc-meta';m.textContent=meta;card.appendChild(m);}
-
   if(film.clips.length){
-    const cd=document.createElement('div');cd.className='fc-clips';
+    const cd=document.createElement('div'); cd.className='fc-clips';
     film.clips.forEach((clip,i)=>{
-      const cr=document.createElement('div');cr.className='fc-clip-row'+(s.clips[i]?' done':'');
-      const cb=document.createElement('button');cb.className='fc-clip-box';cb.textContent=s.clips[i]?'✓':'';
+      const cr=document.createElement('div'); cr.className='fc-clip-row'+(s.clips[i]?' done':'');
+      const cb=document.createElement('button'); cb.className='fc-clip-box'; cb.textContent=s.clips[i]?'✓':'';
       cb.onclick=()=>{const s2=fs(film.id);s2.clips[i]=!s2.clips[i];save();cr.classList.toggle('done',!!s2.clips[i]);cb.textContent=s2.clips[i]?'✓':'';};
-      const ct=document.createElement('span');ct.className='fc-clip-txt';ct.textContent=clip;
-      cr.appendChild(cb);cr.appendChild(ct);cd.appendChild(cr);
-    });
-    card.appendChild(cd);
+      const ct=document.createElement('span'); ct.className='fc-clip-txt'; ct.textContent=clip;
+      cr.appendChild(cb); cr.appendChild(ct); cd.appendChild(cr);
+    }); card.appendChild(cd);
   }
-  return card;
+  grid.appendChild(card);
 }
 
-// ── Init ─────────────────────────────────────────────
-buildTabs();buildNavSheet();
+// ── Init ──────────────────────────────────────────────
+buildTabs(); buildNavSheet();
 const main=document.getElementById('main');
 main.appendChild(buildOverview());
 LESSONS.forEach(l=>main.appendChild(buildLesson(l)));
