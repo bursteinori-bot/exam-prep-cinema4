@@ -540,19 +540,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 scrollTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-// ── Swipe navigation (mobile) ────────────────────────
-let _swipeX = 0;
-document.getElementById('main').addEventListener('touchstart', e => {
-  _swipeX = e.touches[0].clientX;
-}, { passive: true });
-document.getElementById('main').addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - _swipeX;
-  if (Math.abs(dx) < 60) return;
-  const tabs = ['overview', ...LESSONS.map(l => `l${l.id}`)];
-  const cur = tabs.indexOf(active);
-  if (dx < 0 && cur < tabs.length - 1) setTab(tabs[cur + 1]);
-  if (dx > 0 && cur > 0) setTab(tabs[cur - 1]);
-}, { passive: true });
+
 document.addEventListener('keydown', e => { if(e.key==='Escape'){closeSheet('reading-panel');closeSheet('settings-panel');closeNavSheet();} });
 
 function openRP(title, buildFn) {
