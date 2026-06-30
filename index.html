@@ -171,21 +171,10 @@
     .settings-btn { width:40px; height:40px; border-radius:12px; border:.5px solid var(--border); background:var(--surface); color:var(--text); cursor:pointer; font-size:.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .12s; }
     .settings-btn:hover { background:var(--inset); }
 
-    /* Tab bar */
-    .tab-bar { display:flex; overflow-x:auto; scrollbar-width:none; gap:0; margin:0 -16px; padding:0 12px; }
-    .tab-bar::-webkit-scrollbar { display:none; }
-    .tab-btn { flex-shrink:0; padding:6px 10px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:.62rem; font-family:var(--f-body); cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-.5px; text-align:right; }
-    .tab-btn:hover { color:var(--text); }
-    .tab-btn.active { color:var(--text); font-weight:600; border-bottom-color:var(--text); }
-    .tab-btn .tab-num { display:block; font-size:.44rem; color:var(--faint); font-family:var(--f-mono); margin-bottom:1px; }
-    .tab-btn.active .tab-num { color:var(--muted); }
-    .tab-btn .tab-title { display:block; }
-    .tab-btn .tab-frac { font-size:.44rem; color:var(--faint); }
-    .tab-btn.active .tab-frac { color:var(--muted); }
-    .tab-divider { width:1px; background:var(--border); margin:5px 3px; flex-shrink:0; }
-    .tab-sem-label { font-size:.5rem; color:var(--faint); padding:0 4px; align-self:center; flex-shrink:0; white-space:nowrap; }
-    .tab-btn.sem-a .tab-num { color:var(--gold); }
-    .tab-btn.sem-a.active { color:var(--gold-dark); border-bottom-color:var(--gold-dark); }
+    /* Layout / sidebar (desktop topic nav) */
+    .layout { display:flex; align-items:flex-start; }
+    .sidebar { display:none; }
+    main { flex:1; min-width:0; }
 
     /* Nav sheet */
     .nav-sheet { position:fixed; bottom:0; right:0; left:0; background:var(--surface); border-radius:26px 26px 0 0; box-shadow:0 -4px 24px rgba(0,0,0,.18); z-index:302; max-height:80vh; overflow-y:auto; transform:translateY(100%); transition:transform .28s cubic-bezier(.32,.72,0,1); }
@@ -198,6 +187,12 @@
     .ns-item.active .ns-item-title { font-weight:600; }
     .ns-item-frac { font-size:.54rem; color:var(--muted); white-space:nowrap; font-family:var(--f-mono); }
     .ns-item.sem-a .ns-item-title { color:var(--gold-dark); }
+
+    @media(min-width:821px) {
+      .sidebar { display:block; width:280px; flex-shrink:0; border-left:.5px solid var(--border); position:sticky; top:var(--header-h,64px); height:calc(100vh - var(--header-h,64px)); overflow-y:auto; }
+      .sidebar .ns-item { padding:12px 16px; align-items:flex-start; }
+      .sidebar .ns-item-num, .sidebar .ns-item-frac { padding-top:1px; }
+    }
 
     /* Main */
     main { max-width:100%; padding:16px 12px 32px; }
@@ -309,7 +304,6 @@
 
     /* Mobile */
     @media(max-width:820px) {
-      .tab-bar { display:none; }
       .settings-btn.toc-btn { display:flex; }
       .sheet-tall { height:92vh; }
       .fc-clip-box { width:18px; height:18px; min-width:18px; font-size:.52rem; }
@@ -342,7 +336,7 @@
     <div class="header-icons">
       <button class="settings-btn" id="home-btn" title="עמוד הבית" onclick="setTab('overview')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h3v-5h4v5h3a1 1 0 0 0 1-1v-9"/></svg></button>
       <button class="settings-btn toc-btn" id="toc-btn" title="תוכן עניינים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="18" height="18"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
-      <button class="settings-btn" id="settings-btn" title="הגדרות"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="18" height="18"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="1.6" fill="currentColor" stroke="none"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="7" cy="18" r="1.6" fill="currentColor" stroke="none"/></svg></button>
+      <button class="settings-btn" id="settings-btn" title="הגדרות"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" width="18" height="18"><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(0 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(45 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(90 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(135 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(180 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(225 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(270 12 12)"/><rect x="10.7" y="2.2" width="2.6" height="3" rx="1" transform="rotate(315 12 12)"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.6"/></svg></button>
       <button class="settings-btn" id="theme-btn" title="החלף תצוגה"></button>
     </div>
     <h1>תולדות הקולנוע · צ'קליסט סרטים</h1>
@@ -355,7 +349,6 @@
       <span class="lbl">ימים</span>
     </div>
   </div>
-  <div class="tab-bar" id="tab-bar"></div>
 </header>
 
 <!-- Backdrops -->
@@ -415,7 +408,12 @@
 <!-- Scroll to top -->
 <button class="scroll-top" id="scroll-top">↑</button>
 
-<main id="main"></main>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div id="sidebar-list"></div>
+  </aside>
+  <main id="main"></main>
+</div>
 
 <script src="data.js"></script>
 <script src="summaries.js"></script>
@@ -652,46 +650,27 @@ setBd.onclick = () => closeSheet('settings-panel');
 let active='overview';
 function setTab(id) {
   active=id;
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===id));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.p===id));
   document.querySelectorAll('.ns-item').forEach(it=>it.classList.toggle('active',it.dataset.t===id));
   closeNavSheet();
 }
 
-function buildNavSheet() {
-  const list=document.getElementById('ns-list'); list.innerHTML='';
+function buildNavLists() {
+  const lists=[document.getElementById('ns-list'), document.getElementById('sidebar-list')];
+  lists.forEach(list=>list.innerHTML='');
   const mkItem=(t,num,title,frac,cls='')=>{
-    const div=document.createElement('div');
-    div.className='ns-item'+(active===t?' active':'')+(cls?' '+cls:''); div.dataset.t=t;
-    div.innerHTML=`<span class="ns-item-num">${num}</span><span class="ns-item-title">${title}</span>${frac?`<span class="ns-item-frac">${frac}</span>`:''}`;
-    div.onclick=()=>setTab(t); list.appendChild(div);
+    lists.forEach(list=>{
+      const div=document.createElement('div');
+      div.className='ns-item'+(active===t?' active':'')+(cls?' '+cls:''); div.dataset.t=t;
+      div.innerHTML=`<span class="ns-item-num">${num}</span><span class="ns-item-title">${title}</span>${frac?`<span class="ns-item-frac">${frac}</span>`:''}`;
+      div.onclick=()=>setTab(t); list.appendChild(div);
+    });
   };
   mkItem('overview','','סקירה כללית','');
   LESSONS.filter(l=>l.semester==='א').forEach(l=>mkItem(`l${l.id}`,l.id,l.title,'','sem-a'));
   LESSONS.filter(l=>!l.semester).forEach(l=>{
     const w=watchedCount(l),t=mandatory(l).length;
     const pct=pctOf(w,t); mkItem(`l${l.id}`,l.id,l.title,t?`${w}/${t} · ${pct}%`:'');
-  });
-}
-
-function buildTabs() {
-  const bar=document.getElementById('tab-bar');
-  const mkBtn=(t,num,title,frac='',cls='')=>{
-    const b=document.createElement('button');
-    b.className='tab-btn'+(t==='overview'?' active':'')+(cls?' '+cls:'');
-    b.dataset.t=t;
-    b.innerHTML=`<span class="tab-num">${num}</span><span class="tab-title">${title}</span>${frac?`<br><span class="tab-frac" data-l="${num}">${frac}</span>`:''}`;
-    b.onclick=()=>setTab(t); bar.appendChild(b);
-  };
-  const mkD=()=>{const d=document.createElement('div');d.className='tab-divider';bar.appendChild(d);};
-  const mkL=txt=>{const s=document.createElement('span');s.className='tab-sem-label';s.textContent=txt;bar.appendChild(s);};
-  mkBtn('overview','','סקירה');
-  mkD(); mkL('סמ׳ א');
-  LESSONS.filter(l=>l.semester==='א').forEach(l=>mkBtn(`l${l.id}`,l.id,l.title,'','sem-a'));
-  mkD(); mkL('סמ׳ ב');
-  LESSONS.filter(l=>!l.semester).forEach(l=>{
-    const w=watchedCount(l),t=mandatory(l).length;
-    mkBtn(`l${l.id}`,l.id,l.title,t?`${w}/${t}`:'');
   });
 }
 
@@ -833,11 +812,13 @@ function buildFilmRow(film, list, panel, l) {
 }
 
 // ── Init ──────────────────────────────────────────────
-buildTabs(); buildNavSheet();
+buildNavLists();
 const main=document.getElementById('main');
 main.appendChild(buildOverview());
 LESSONS.forEach(l=>main.appendChild(buildLesson(l)));
 refreshProgress();
+function setHeaderHeightVar(){document.documentElement.style.setProperty('--header-h',document.querySelector('header').offsetHeight+'px');}
+setHeaderHeightVar(); window.addEventListener('resize',setHeaderHeightVar);
 </script>
 </body>
 </html>
