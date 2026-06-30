@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl" data-theme="dark" data-font="classic">
+<html lang="he" dir="rtl" data-theme="dark" data-font="classic" data-style="glass">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +28,101 @@
       --header-bg:rgba(20,20,19,.92);
       --days-bg:#E8E6E0; --days-text:#1C1B19;
       --shadow:0 2px 12px rgba(0,0,0,.32),0 0 0 .5px rgba(0,0,0,.22);
+    }
+
+    /* ── Liquid Glass style (toggle, additive only) ── */
+    [data-style="glass"] {
+      --glass-bg:rgba(255,255,255,.55);
+      --glass-bg-strong:rgba(255,255,255,.74);
+      --glass-border:rgba(255,255,255,.6);
+      --glass-blur:18px; --glass-sat:160%;
+      --glass-shine:linear-gradient(135deg,rgba(255,255,255,.30),rgba(255,255,255,0) 45%);
+      --bevel:inset 1px 1px 1px rgba(255,255,255,.6),inset -1px -1px 1px rgba(0,0,0,.08);
+      --bevel-active:inset -1px -1px 1px rgba(255,255,255,.4),inset 1px 1px 2px rgba(0,0,0,.15);
+      --green-glass-tint:rgba(26,122,82,.16);
+      --bg-grad-a:rgba(196,168,74,.10); --bg-grad-b:rgba(21,96,168,.07); --bg-grad-c:rgba(26,122,82,.05);
+      --shadow:0 2px 8px rgba(0,0,0,.08),0 8px 20px rgba(0,0,0,.05),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 1px rgba(0,0,0,.04);
+    }
+    [data-style="glass"][data-theme="dark"] {
+      --glass-bg:rgba(36,35,32,.50);
+      --glass-bg-strong:rgba(30,29,27,.80);
+      --glass-border:rgba(255,255,255,.10);
+      --glass-blur:20px; --glass-sat:140%;
+      --glass-shine:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,0) 45%);
+      --bevel:inset 1px 1px 1px rgba(255,255,255,.08),inset -1px -1px 1px rgba(0,0,0,.4);
+      --bevel-active:inset -1px -1px 1px rgba(0,0,0,.05),inset 1px 1px 2px rgba(0,0,0,.5);
+      --green-glass-tint:rgba(46,189,118,.14);
+      --bg-grad-a:rgba(196,168,74,.07); --bg-grad-b:rgba(75,148,216,.10); --bg-grad-c:rgba(46,189,118,.05);
+      --shadow:0 2px 12px rgba(0,0,0,.32),0 10px 24px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.06),inset 0 -1px 1px rgba(0,0,0,.3);
+    }
+    [data-style="glass"] body {
+      background:
+        radial-gradient(ellipse 900px 600px at 12% -10%, var(--bg-grad-a), transparent 60%),
+        radial-gradient(ellipse 800px 700px at 110% 20%, var(--bg-grad-b), transparent 55%),
+        radial-gradient(ellipse 1000px 800px at 50% 120%, var(--bg-grad-c), transparent 60%),
+        var(--bg);
+      background-attachment:fixed;
+    }
+    [data-style="glass"] .sec-box,
+    [data-style="glass"] .fl-item,
+    [data-style="glass"] .ov-row {
+      background:var(--glass-bg);
+      backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      border:.5px solid var(--glass-border);
+      position:relative;
+    }
+    [data-style="glass"] .ov-row { overflow:hidden; }
+    [data-style="glass"] .sheet,
+    [data-style="glass"] .nav-sheet {
+      background:var(--glass-bg-strong);
+      backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      box-shadow:0 -4px 32px rgba(0,0,0,.18),0 -1px 0 rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 2px rgba(0,0,0,.05);
+    }
+    [data-style="glass"][data-theme="dark"] .sheet,
+    [data-style="glass"][data-theme="dark"] .nav-sheet {
+      box-shadow:0 -4px 32px rgba(0,0,0,.4),0 -1px 0 rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.07),inset 0 -1px 2px rgba(0,0,0,.2);
+    }
+    [data-style="glass"] .settings-btn,
+    [data-style="glass"] .mark-all-btn,
+    [data-style="glass"] .fl-filter,
+    [data-style="glass"] .set-opt,
+    [data-style="glass"] .lesson-home-btn {
+      background:var(--glass-bg);
+      backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+      box-shadow:var(--bevel);
+    }
+    [data-style="glass"] .settings-btn:active,
+    [data-style="glass"] .mark-all-btn:active,
+    [data-style="glass"] .fl-filter:active,
+    [data-style="glass"] .set-opt:active,
+    [data-style="glass"] .lesson-home-btn:active {
+      box-shadow:var(--bevel-active);
+      transform:translateY(.5px);
+    }
+    [data-style="glass"] .fl-check {
+      background:var(--glass-bg);
+      box-shadow:var(--bevel);
+    }
+    [data-style="glass"] .fl-check:active { box-shadow:var(--bevel-active); }
+    [data-style="glass"] .sec-box::before,
+    [data-style="glass"] .fl-item::before,
+    [data-style="glass"] .ov-row::before,
+    [data-style="glass"] .sheet::before,
+    [data-style="glass"] .nav-sheet::before {
+      content:''; position:absolute; inset:0; border-radius:inherit;
+      background:var(--glass-shine); pointer-events:none; z-index:0;
+    }
+    [data-style="glass"] .sec-box > *,
+    [data-style="glass"] .fl-item > *,
+    [data-style="glass"] .ov-row > *,
+    [data-style="glass"] .sheet > *,
+    [data-style="glass"] .nav-sheet > * { position:relative; z-index:1; }
+    [data-style="glass"] .fl-item.watched,
+    [data-style="glass"] .ov-row.done {
+      background:linear-gradient(var(--green-glass-tint),var(--green-glass-tint)),var(--glass-bg);
     }
 
     /* ── Font stacks ── */
@@ -112,12 +207,15 @@
     .panel { display:none; } .panel.active { display:block; }
 
     /* Lesson header */
-    .lesson-hd { margin-bottom:14px; }
+    .lesson-hd { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:14px; }
+    .lesson-hd-info { flex:1; min-width:0; }
     .lesson-hd .l-num { font-size:.54rem; color:var(--faint); font-family:var(--f-mono); letter-spacing:.06em; margin-bottom:2px; }
     .lesson-hd h2 { font-family:var(--f-head); font-size:1rem; font-weight:600; color:var(--text); line-height:1.3; }
     .lesson-hd .l-frac { font-size:.58rem; color:var(--muted); margin-top:3px; font-family:var(--f-mono); }
     .lesson-hd .l-frac b { color:var(--text); }
     .lesson-subtitle { font-size:.62rem; color:var(--gold-dark); margin-top:2px; margin-bottom:10px; }
+    .lesson-home-btn { flex-shrink:0; width:36px; height:36px; border-radius:11px; border:.5px solid var(--border); background:var(--surface); color:var(--text); font-size:.7rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .lesson-home-btn:hover { background:var(--inset); }
 
     /* Section boxes */
     .sec-box { background:var(--surface); border-radius:16px; box-shadow:var(--shadow); margin-top:12px; overflow:hidden; }
@@ -218,6 +316,8 @@
       .mob-nav { display:flex; }
       .sheet-tall { height:92vh; }
       .fc-clip-box { width:18px; height:18px; min-width:18px; font-size:.52rem; }
+      .header-top { flex-wrap:wrap; }
+      header h1 { order:-1; flex:1 1 100%; white-space:normal; overflow:visible; text-overflow:clip; font-size:.95rem; margin-bottom:6px; }
     }
     @media(max-width:480px) { html { font-size:22px; } header { padding:8px 12px 0; } main { padding:12px 10px 20px; } }
     @media(max-width:360px) { html { font-size:19px; } }
@@ -292,18 +392,18 @@
   </div>
   <div class="settings-body">
     <div class="set-section">
-      <div class="set-label">מצב תצוגה</div>
-      <div class="set-row">
-        <button class="set-opt" data-theme="light" onclick="setTheme('light')">☀️ בהיר</button>
-        <button class="set-opt" data-theme="dark" onclick="setTheme('dark')">🌙 כהה</button>
-      </div>
-    </div>
-    <div class="set-section">
       <div class="set-label">פונט</div>
       <div class="set-row">
         <button class="set-opt" data-font="classic" onclick="setFont('classic')">יהודה קלאסי</button>
         <button class="set-opt" data-font="modern" onclick="setFont('modern')">מודרני</button>
         <button class="set-opt" data-font="elegant" onclick="setFont('elegant')">אלגנטי</button>
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-label">סגנון עיצוב</div>
+      <div class="set-row">
+        <button class="set-opt" data-style="classic" onclick="setStyle('classic')">קלאסי</button>
+        <button class="set-opt" data-style="glass" onclick="setStyle('glass')">Liquid Glass</button>
       </div>
     </div>
     <div class="set-section">
@@ -331,7 +431,6 @@
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('c4_theme', t);
-  document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
   updateThemeBtn();
 }
 function updateThemeBtn() {
@@ -343,14 +442,21 @@ function setFont(f) {
   localStorage.setItem('c4_font', f);
   document.querySelectorAll('[data-font]').forEach(b => b.classList.toggle('active', b.dataset.font===f));
 }
+function setStyle(s) {
+  document.documentElement.setAttribute('data-style', s);
+  localStorage.setItem('c4_style', s);
+  document.querySelectorAll('.set-opt[data-style]').forEach(b => b.classList.toggle('active', b.dataset.style===s));
+}
 (function initSettings() {
   const t = localStorage.getItem('c4_theme')||'dark';
   const f = localStorage.getItem('c4_font')||'classic';
+  const s = localStorage.getItem('c4_style')||'glass';
   document.documentElement.setAttribute('data-theme', t);
   document.documentElement.setAttribute('data-font', f);
+  document.documentElement.setAttribute('data-style', s);
   setTimeout(() => {
-    document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));
     document.querySelectorAll('[data-font]').forEach(b=>b.classList.toggle('active',b.dataset.font===f));
+    document.querySelectorAll('.set-opt[data-style]').forEach(b=>b.classList.toggle('active',b.dataset.style===s));
     updateThemeBtn();
   }, 0);
 })();
@@ -448,7 +554,7 @@ function showJoke(filmId) {
   const msg = list[Math.floor(Math.random()*list.length)];
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3800);
+  setTimeout(() => t.classList.remove('show'), 4500);
 }
 
 function confetti(el) {
@@ -640,7 +746,7 @@ function buildLesson(l) {
   const totalMins=mandatory(l).reduce((s,f)=>s+(f.duration||0),0);
   const durStr=totalMins?` · ~${Math.floor(totalMins/60)}שע${totalMins%60?' '+totalMins%60+'ד':''}` :'';
   const hd=document.createElement('div'); hd.className='lesson-hd';
-  hd.innerHTML=`<div class="l-num">נושא ${l.id}${l.semester?' · סמ׳ א':''}</div><h2>${l.title}</h2>${t?`<div class="l-frac"><b>${w}</b> / ${t} נצפו${durStr}</div>`:''}`;
+  hd.innerHTML=`<div class="lesson-hd-info"><div class="l-num">נושא ${l.id}${l.semester?' · סמ׳ א':''}</div><h2>${l.title}</h2>${t?`<div class="l-frac"><b>${w}</b> / ${t} נצפו${durStr}</div>`:''}</div><button class="lesson-home-btn" onclick="setTab('overview')" title="חזרה לעמוד הבית">🏠</button>`;
   panel.appendChild(hd);
   if(l.subtitle){const s=document.createElement('div');s.className='lesson-subtitle';s.textContent=l.subtitle;panel.appendChild(s);}
 
